@@ -1,5 +1,5 @@
 <template>
-    <div class="nav">
+    <div class="nav pl-15">
         <div v-for="item in data.list" :key="item.id" :class="[item.id == data.activeId ? 'active' : '']"
             @click="JumpOtherPage(item)">{{ item.name }}</div>
     </div>
@@ -55,6 +55,7 @@ onBeforeMount(() => {
 
 
 
+
 </script>
 <style scoped lang='scss'>
 .nav {
@@ -62,7 +63,6 @@ onBeforeMount(() => {
     border-bottom: 1px solid #E9EAEC;
     display: flex;
     position: relative;
-
 }
 
 .nav>div {
@@ -70,7 +70,7 @@ onBeforeMount(() => {
     align-items: center;
     justify-content: center;
     padding: 0 10px;
-    margin: 10px;
+    margin: 10px 20px 10px 0px;
     color: $text-p3;
     border-radius: 6px;
     font-size: 12px;

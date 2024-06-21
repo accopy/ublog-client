@@ -6,7 +6,7 @@
                 <div class="ind"> {{ item.content }}</div>
                 <div class="foot">
                     <div class="createdate">
-                        <img src="@/assets/icon/日历.svg" alt="" width="15">
+                        <img src="@/assets/img/icon/日历.svg" alt="" width="15">
                         <div style="margin-left: 8px;">{{ item.create_time.substring(0, 10) }}</div>
                     </div>
                     <div class="category">
@@ -41,7 +41,10 @@ const data = reactive({
     ],
     pageData: {
         pageSize: 5,
-        pageNum: 1
+        pageNum: 1,
+        queryinfo: {
+            querytype: 'recent'
+        }
     },
     total: 0,
 });

@@ -1,5 +1,5 @@
 <template>
-    <div class="achives">
+    <div class="achives pl-15">
         <div v-for="item in data.list" :key="item.year" style="margin-top: 15px;">
             <div class="head">
                 <span class=""> {{ item.year }}</span>
@@ -47,9 +47,7 @@ const toDetailPage = (val) => {
 }
 </script>
 <style scoped lang='scss'>
-.achives {
-    padding: 0 15px;
-}
+.achives {}
 
 .head {
     color: $text-p1;

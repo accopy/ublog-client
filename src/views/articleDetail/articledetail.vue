@@ -2,9 +2,11 @@
     <a-row style="background-color: #F9FAFB !important;">
         <a-col class="left">
             <div class="banner">
-                <!-- <img src="@/assets/img/banner.jpg" alt=""> -->
-                <div class="content">
+                <div class="bannerbg">
+                    <img src="@/assets/img/banner.jpg" alt="" width="100%" height="100%">
+                </div>
 
+                <div class="content ">
                     <div class="bannertop">
                         <div class="breadcrumbbox">
                             <a-breadcrumb>
@@ -14,7 +16,7 @@
                             </a-breadcrumb>
                         </div>
                         <div style="display: flex;">
-                            <div> Mr. X </div>
+                            <div> Mr. A </div>
                             <div class="time1">
                                 <span style="margin: 0 10px;">|</span>
                                 <span>{{ data.article.create_time }}</span>
@@ -41,7 +43,7 @@
 </template>
 
 <script setup>
-import { reactive, toRefs, onBeforeMount, onMounted, ref } from 'vue'
+import { reactive, toRefs, onBeforeMount, onMounted, ref, watch } from 'vue'
 import { getArticleDetail } from "@/api/api"
 // 1.1 引入Vditor 构造函数
 import Vditor from "vditor"
@@ -57,7 +59,9 @@ const data = reactive({
     article: {}
 })
 // 3. 在组件初始化时，就创建Vditor对象，并引用
-onMounted(() => {
+
+//获取详情数据
+const getTagsList = () => {
     data.id = route.query.articleId
     getArticleDetail(data.id).then(res => {
         if (res.code == 200) {
@@ -70,9 +74,20 @@ onMounted(() => {
         }
 
     })
-
+}
+onMounted(() => {
+    getTagsList()
 
 })
+
+//监听路由
+watch(
+    () => route.query,
+    (newVal, oldVal) => {
+        getTagsList()
+    },
+    { deep: true }
+)
 
 const renderMarkdown = (md) => {
     Vditor.preview(document.getElementById("preview"), md, {
@@ -88,10 +103,16 @@ const renderMarkdown = (md) => {
     user-select: none;
 }
 
+
 .left {
     .banner:hover {
-        filter: (2px)
+        img {
+            filter: blur(10px);
+        }
+
     }
+
+
 
     .banner {
         width: 720px;
@@ -99,10 +120,30 @@ const renderMarkdown = (md) => {
         border-radius: 16px;
         overflow: hidden;
         font-family: LXGWWenKaiMonoScreen;
+        overflow: hidden;
         position: relative;
-        background-image: url('@/assets/img/banner.jpg');
-        background-size: cover;
+        // background-image: url('@/assets/img/banner.jpg');
+        // background-size: cover;
 
+        .bannerbg {
+            border-radius: 16px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            z-index: 1;
+
+            img {
+                -moz-user-select: -moz-none;
+                -khtml-user-select: none;
+                -webkit-user-select: none;
+                -o-user-select: none;
+                user-select: none;
+                object-fit: cover;
+            }
+        }
 
         .time2 {
             opacity: 0;
@@ -120,11 +161,14 @@ const renderMarkdown = (md) => {
             justify-content: space-between;
             color: white;
 
+
             .bannertop {
                 padding: 15px;
 
                 line-height: 1.6;
                 user-select: none;
+                color: white;
+                z-index: 2;
             }
 
             .bannertitle {
@@ -132,6 +176,7 @@ const renderMarkdown = (md) => {
                 justify-content: center;
                 font-size: 28px;
                 padding-bottom: 40px;
+                z-index: 2;
 
                 //文字描边效果
                 background-image: linear-gradient(#FFFFFF, #92FE9D, );
@@ -154,16 +199,20 @@ const renderMarkdown = (md) => {
 }
 
 .breadcrumbbox {
+
     color: white !important;
+    z-index: 2;
 
     .ant-breadcrumb a {
         color: white !important;
         font-family: LXGWWenKaiMonoScreen;
+        z-index: 2;
     }
 
     .ant-breadcrumb li:last-child {
         color: white !important;
         font-family: LXGWWenKaiMonoScreen;
+        z-index: 2;
     }
 
 

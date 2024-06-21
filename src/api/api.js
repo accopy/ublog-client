@@ -46,6 +46,14 @@ export const getArticleDetail = (id) => {
     })
 }
 
+//获取最近更新se
+export const getArticleListSe = () => {
+    return request({
+        url: `/getArticleListSe`,
+        method: 'get',
+    })
+}
+
 //新增分类
 export const addCategory = (data) => {
     return request({

@@ -1,15 +1,17 @@
 <template>
-    <div class="recent">
+    <div class="recent pl-15">
         <ArticleList :query="queryinfo"></ArticleList>
     </div>
 </template>
 
 <script setup>
 import { reactive } from 'vue'
-import ArticleList from '../../components/ArticleList/index.vue';
+import ArticleList from '@/components/ArticleList/index.vue';
 
 const data = reactive({
-    queryinfo: {},
+    queryinfo: {
+        querytype: 'recent'
+    },
 
 });
 

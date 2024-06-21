@@ -42,9 +42,7 @@
                 <div></div>
             </div>
             <div class="post-list">
-                <div>吴蜀风流自古同，归去应须早。您吴蜀风流自古同，归去应须早。您</div>
-                <div>吴蜀风流自古同，归去应须早。您吴蜀风流自古同，归去应须早。您</div>
-
+                <div v-for="item in data.recentlist" @click="toDetailPage(item._id)">{{ item.title }}</div>
             </div>
         </div>
     </div>
@@ -52,6 +50,7 @@
 
 <script setup>
 import { reactive, toRefs, onBeforeMount, onMounted } from 'vue'
+import { getArticleListSe } from '@/api/api'
 //引入路由
 import { useRouter } from 'vue-router'
 const router = useRouter();
@@ -62,9 +61,9 @@ const data = reactive({
         { id: 1, img: require('./icon/文档.svg'), url: '/' },
         { id: 2, img: require('./icon/社交.svg'), url: '' },
         { id: 3, img: require('./icon/爱心.svg'), url: '' },
-
         { id: 4, img: require('./icon/写作.svg'), url: '/add' }
-    ]
+    ],
+    recentlist: []
 })
 
 const JumpOtherPage = (val) => {
@@ -76,10 +75,25 @@ const JumpOtherPage = (val) => {
 
         })
     }
-
-
-
 }
+
+
+const toDetailPage = (val) => {
+    //跳转详情页
+    router.push({
+        path: '/detail',
+        query: { articleId: val }
+
+    })
+}
+
+onBeforeMount(() => {
+    getArticleListSe().then(res => {
+        data.recentlist = res.data
+    })
+})
+
+
 
 </script>
 <style scoped lang='scss'>
@@ -232,7 +246,7 @@ const JumpOtherPage = (val) => {
         overflow: hidden;
         text-overflow: ellipsis;
         line-height: 30px;
-        padding: 0 5px;
+        padding: 0 10px;
 
 
 

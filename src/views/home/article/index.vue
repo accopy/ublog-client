@@ -1,9 +1,9 @@
 <template>
     <div>
         <Navbar />
-        <keep-alive>
-            <router-view></router-view>
-        </keep-alive>
+
+        <router-view></router-view>
+
     </div>
 </template>
 
@@ -17,4 +17,9 @@ const data = reactive({
 
 
 </script>
-<style scoped lang='scss'></style>
+<style scoped lang='scss'>
+.pl15 {
+    padding: 0 15px;
+
+}
+</style>
