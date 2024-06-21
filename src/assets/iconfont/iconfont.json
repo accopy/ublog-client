@@ -1,0 +1,44 @@
+{
+  "id": "4588553",
+  "name": "ublog",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "3816501",
+      "name": "文档",
+      "font_class": "wendang",
+      "unicode": "e716",
+      "unicode_decimal": 59158
+    },
+    {
+      "icon_id": "25370566",
+      "name": "搜索",
+      "font_class": "sousuo",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "40394703",
+      "name": "标书",
+      "font_class": "biaoshu",
+      "unicode": "e697",
+      "unicode_decimal": 59031
+    },
+    {
+      "icon_id": "40394705",
+      "name": "测评",
+      "font_class": "ceping",
+      "unicode": "e698",
+      "unicode_decimal": 59032
+    },
+    {
+      "icon_id": "40394709",
+      "name": "吃喝玩乐",
+      "font_class": "chihewanle",
+      "unicode": "e699",
+      "unicode_decimal": 59033
+    }
+  ]
+}

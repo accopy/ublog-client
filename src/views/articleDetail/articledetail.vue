@@ -1,0 +1,176 @@
+<template>
+    <a-row style="background-color: #F9FAFB !important;">
+        <a-col class="left">
+            <div class="banner">
+                <!-- <img src="@/assets/img/banner.jpg" alt=""> -->
+                <div class="content">
+
+                    <div class="bannertop">
+                        <div class="breadcrumbbox">
+                            <a-breadcrumb>
+                                <a-breadcrumb-item><a href="/">主页</a></a-breadcrumb-item>
+                                <a-breadcrumb-item>{{ data.article.categoryName }}</a-breadcrumb-item>
+
+                            </a-breadcrumb>
+                        </div>
+                        <div style="display: flex;">
+                            <div> Mr. X </div>
+                            <div class="time1">
+                                <span style="margin: 0 10px;">|</span>
+                                <span>{{ data.article.create_time }}</span>
+                            </div>
+
+                            <div class="time2">
+                                <span style="margin: 0 10px;">|</span>
+                                <span>更新于{{ data.article.update_time }}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class=" bannertitle">
+                        {{ data.article.title }}
+                    </div>
+                </div>
+            </div>
+            <div class="maincontent">
+                <div id="preview"></div>
+            </div>
+        </a-col>
+        <a-col :span="8" class="right">col-12</a-col>
+    </a-row>
+</template>
+
+<script setup>
+import { reactive, toRefs, onBeforeMount, onMounted, ref } from 'vue'
+import { getArticleDetail } from "@/api/api"
+// 1.1 引入Vditor 构造函数
+import Vditor from "vditor"
+// 1.2 引入样式
+import 'vditor/dist/index.css';
+
+import { useRoute } from 'vue-router'
+
+//首先在setup中定义
+const route = useRoute()
+const data = reactive({
+    id: '',
+    article: {}
+})
+// 3. 在组件初始化时，就创建Vditor对象，并引用
+onMounted(() => {
+    data.id = route.query.articleId
+    getArticleDetail(data.id).then(res => {
+        if (res.code == 200) {
+            data.article = res.data
+            data.article.create_time = res.data.create_time.slice(0, 10)
+            data.article.update_time = res.data.update_time.slice(0, 10)
+            data.article.categoryName = res.data.categoryName[0]
+            renderMarkdown(data.article.content)
+
+        }
+
+    })
+
+
+})
+
+const renderMarkdown = (md) => {
+    Vditor.preview(document.getElementById("preview"), md, {
+        hljs: { style: "github" },
+    });
+}
+
+
+
+</script>
+<style scoped lang='scss'>
+.right {
+    user-select: none;
+}
+
+.left {
+    .banner:hover {
+        filter: (2px)
+    }
+
+    .banner {
+        width: 720px;
+        height: 244px;
+        border-radius: 16px;
+        overflow: hidden;
+        font-family: LXGWWenKaiMonoScreen;
+        position: relative;
+        background-image: url('@/assets/img/banner.jpg');
+        background-size: cover;
+
+
+        .time2 {
+            opacity: 0;
+        }
+
+        .time2:hover {
+            opacity: .8;
+        }
+
+        .content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: white;
+
+            .bannertop {
+                padding: 15px;
+
+                line-height: 1.6;
+                user-select: none;
+            }
+
+            .bannertitle {
+                display: flex;
+                justify-content: center;
+                font-size: 28px;
+                padding-bottom: 40px;
+
+                //文字描边效果
+                background-image: linear-gradient(#FFFFFF, #92FE9D, );
+                background-clip: text;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                /*需要文字透明*/
+            }
+
+
+
+        }
+    }
+
+    .maincontent {
+        margin-top: 20px;
+        width: 720px;
+        padding: 10px;
+    }
+}
+
+.breadcrumbbox {
+    color: white !important;
+
+    .ant-breadcrumb a {
+        color: white !important;
+        font-family: LXGWWenKaiMonoScreen;
+    }
+
+    .ant-breadcrumb li:last-child {
+        color: white !important;
+        font-family: LXGWWenKaiMonoScreen;
+    }
+
+
+    :deep(.ant-breadcrumb-separator) {
+        //括号中为需要修改的类名
+        color: white !important;
+
+    }
+}
+</style>
