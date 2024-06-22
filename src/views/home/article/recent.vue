@@ -1,5 +1,5 @@
 <template>
-    <div class="recent">
+    <div class="recent ">
         <ArticleList :query="queryinfo"></ArticleList>
     </div>
 </template>
@@ -7,6 +7,8 @@
 <script setup>
 import { reactive } from 'vue'
 import ArticleList from '@/components/ArticleList/index.vue';
+import { useRouter } from 'vue-router'
+const router = useRouter();
 
 const data = reactive({
     queryinfo: {
@@ -19,7 +21,11 @@ const data = reactive({
 <style scoped lang='scss'>
 .recent {
     width: 100%;
+    height: 100%;
     min-height: calc(100vh - 350px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .card:hover {

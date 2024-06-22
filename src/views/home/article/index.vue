@@ -20,6 +20,7 @@ const data = reactive({
 <style scoped lang='scss'>
 .articleaboutpage {
     width: 100%;
+    height: 100%
 }
 
 .pl15 {

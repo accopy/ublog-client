@@ -60,6 +60,10 @@ import Vditor from 'vditor'
 import 'vditor/dist/index.css';
 import { ref, onMounted, reactive, nextTick, onBeforeMount } from 'vue';
 import { addArticle, getCategoryList } from '@/api/api'
+import { message } from 'ant-design-vue';
+//引入路由
+import { useRouter } from 'vue-router'
+const router = useRouter();
 
 const inputRef = ref()
 
@@ -102,6 +106,8 @@ const handleChange = value => {
     console.log('data', data.formState);
 
 };
+
+
 
 const tagColor = (val) => {
     let colorlist = ['pink', 'cyan', 'blue', '#f50', '#2db7f5', '#87d068', '#108ee9']
@@ -161,22 +167,31 @@ onMounted(() => {
 
 
 const handleFinish = values => {
+
     //提交前处理
     data.formState.content = vditor.value.getValue()
     console.log(data.formState, 'data.formState');
     addArticle(data.formState).then(res => {
         console.log('res', res);
-        // resetForm()
+
+        if (res.code == 200) {
+            message.success({ content: '提交成功!' })
+            toHomePage()
+        }
 
     })
 };
+
+
 const handleFinishFailed = errors => {
     console.log(errors);
 };
 
-const resetForm = () => {
-
-
+const toHomePage = (val) => {
+    //跳转主页
+    router.push({
+        path: '/',
+    })
 }
 
 </script>

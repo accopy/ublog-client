@@ -2,6 +2,8 @@
 export const baseUrl = 'http://localhost:3000/'
 import { message } from 'ant-design-vue';
 
+
+
 import axios from "axios";
 //创建axios实例
 const service = axios.create({
@@ -29,8 +31,14 @@ service.interceptors.response.use((res) => {
 
     const code = res.data.code//code是后端的状态码
     if (code !== 200) {
-        message.error(res.data.data);
+        message.error(res.data.msg);
         //请求失败（包括token失效，302，404...根据和后端约定好的状态码做出不同的处理）
+        console.log('res.data.code', res.data.code);
+        if (code == 401) {
+            //跳转到登录页
+            window.location.href = "/#/login";
+        }
+
         return Promise.reject(res.data)
     } else {
         //请求成功

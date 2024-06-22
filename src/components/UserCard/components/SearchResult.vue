@@ -1,13 +1,13 @@
 <template>
     <div class="searchresultbox">
 
-        <div class="searchresultli" v-for="item in data.list" :key="item._id">
+        <div class="searchresultli" v-for="item in data.list" :key="item._id" @click="toDetailPage(item._id)">
             <div class="biaoti">{{ item.title }}</div>
             <div class="neirong">
-                {{ item.content }}
+                <span v-html="eachColor(item.content, props.searchKey)"></span>
             </div>
         </div>
-        <div class="searchresultnone">
+        <div class="searchresultnone" v-if="!data.isNone">
             没有找到内容
         </div>
     </div>
@@ -21,6 +21,7 @@ import { useDebounceFn } from '@vueuse/core'
 const router = useRouter();
 const data = reactive({
     list: [],
+    isNone: true
 })
 const props = defineProps({
     //子组件接收父组件传递过来的值
@@ -32,7 +33,10 @@ watch(
     () => props.searchKey,
     (newVal, oldVal) => {
         console.log('newVal', newVal)
+
         search()
+
+
 
 
     },
@@ -42,13 +46,25 @@ watch(
 //搜索文章
 
 const search = useDebounceFn(() => {
-    // do something
-    searchArticle({ key: props.searchKey }).then(res => {
-        if (res.code == 200) {
-            data.list = res.data
-        }
 
-    })
+    if (props.searchKey) {
+        searchArticle({ key: props.searchKey }).then(res => {
+            if (res.code == 200) {
+                data.list = res.data
+                if (data.list.length == 0) {
+                    data.isNone = false
+                } else {
+                    data.isNone = true
+                }
+            }
+
+        })
+    } else {
+        data.list = []
+        data.isNone = true
+    }
+    // do something
+
 
 }, 1500, { maxWait: 5000 })
 
@@ -59,6 +75,32 @@ const toDetailPage = (val) => {
         query: { articleId: val }
 
     })
+}
+
+//搜索结果关键字改变颜色
+function eachColor(content, searchVal) {
+
+    // 原始文本
+    let originalText = content;
+
+    // 要查找的关键字
+    let keyword = searchVal;
+
+    // 找到关键字在文本中的位置
+    let keywordIndex = originalText.indexOf(keyword);
+
+    // 如果关键字存在
+    if (keywordIndex !== -1) {
+        // 截取包含关键字的部分文本
+        let startIndex = Math.max(0, keywordIndex - 20); // 开始截取的位置，向前20个字符
+        let endIndex = Math.min(originalText.length, keywordIndex + keyword.length + 20); // 结束截取的位置，向后20个字符
+        let extractedText = originalText.substring(startIndex, endIndex);
+        console.log(extractedText);
+        let nt = '<span style="color:red">' + searchVal + '</span>';
+        return extractedText.replace(searchVal, nt) + '&nbsp;';
+
+    }
+
 }
 </script>
 <style scoped lang='scss'>

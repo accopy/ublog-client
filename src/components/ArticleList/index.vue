@@ -1,27 +1,35 @@
 <template>
     <div class="articlelistbox ">
-        <div class="contentbox">
-            <div class="card" v-for="item in data.list" :key="item.id" @click="toDetailPage(item._id)">
-                <div class="titel"> {{ item.title }}</div>
-                <div class="ind"> {{ item.content }}</div>
-                <div class="foot">
-                    <div class="createdate">
-                        <img src="@/assets/img/icon/日历.svg" alt="" width="15">
-                        <div style="margin-left: 8px;">{{ item.create_time.substring(0, 10) }}</div>
-                    </div>
-                    <div class="category">
-                        <div v-for="(i, index) in item.categoryName" :key="index" class="categorybox">
-                            <i class="iconfont icon-wendang"></i>
-                            {{ i }}
+        <div v-if="data.total">
+            <div class="contentbox">
+                <div class="card" v-for="item in data.list" :key="item.id" @click="toDetailPage(item._id)">
+                    <div class="titel"> {{ item.title }}</div>
+                    <div class="ind"> {{ item.content }}</div>
+                    <div class="foot">
+                        <div class="createdate">
+                            <img src="@/assets/img/icon/日历.svg" alt="" width="15">
+                            <div style="margin-left: 8px;">{{ item.create_time.substring(0, 10) }}</div>
+                        </div>
+                        <div class="category">
+                            <div v-for="(i, index) in item.categoryName" :key="index" class="categorybox">
+                                <i class="iconfont icon-wendang"></i>
+                                {{ i }}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="pagination">
+                <a-pagination v-model:current="data.pageData.pageNum" :total="data.total"
+                    :defaultPageSize="data.pageData.pageSize" @change="changePageNum" />
+            </div>
         </div>
-        <div class="pagination">
-            <a-pagination v-model:current="data.pageData.pageNum" :total="data.total"
-                :defaultPageSize="data.pageData.pageSize" @change="changePageNum" />
+        <div class="emptybox " v-else>
+            <a-empty>
+                <a-button type="primary" @click="toAddPage">Create Now</a-button>
+            </a-empty>
         </div>
+
 
     </div>
 </template>
@@ -97,9 +105,22 @@ const changePageNum = (val) => {
 
 }
 
+
+const toAddPage = (val) => {
+    //跳转详情页
+    router.push({
+        path: '/add',
+
+
+    })
+}
+
+
 </script>
 <style scoped lang='scss'>
-.articlelistbox {}
+.articlelistbox {
+    height: 100%
+}
 
 .card:hover {
     //hover样式
@@ -173,5 +194,9 @@ const changePageNum = (val) => {
     display: flex;
     justify-content: center;
     // pointer-events: none !important;
+}
+
+.emptybox {
+    height: 100%;
 }
 </style>
