@@ -1,5 +1,5 @@
 <template>
-    <div class="recent pl-15">
+    <div class="recent">
         <ArticleList :query="queryinfo"></ArticleList>
     </div>
 </template>
@@ -17,6 +17,11 @@ const data = reactive({
 
 </script>
 <style scoped lang='scss'>
+.recent {
+    width: 100%;
+    min-height: calc(100vh - 350px);
+}
+
 .card:hover {
     //hover样式
     cursor: pointer;

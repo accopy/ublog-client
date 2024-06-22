@@ -29,6 +29,14 @@ export const addArticle = (data) => {
 
 //编辑文章
 
+export const searchArticle = (data) => {
+    return request({
+        url: '/searchArticle',
+        method: 'post',
+        data
+    })
+}
+
 //获取文章
 export const getArticleList = (data) => {
     return request({

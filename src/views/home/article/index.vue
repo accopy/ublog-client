@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="articleaboutpage ">
         <Navbar />
 
         <router-view></router-view>
@@ -18,6 +18,10 @@ const data = reactive({
 
 </script>
 <style scoped lang='scss'>
+.articleaboutpage {
+    width: 100%;
+}
+
 .pl15 {
     padding: 0 15px;
 

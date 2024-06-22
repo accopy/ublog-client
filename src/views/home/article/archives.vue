@@ -47,7 +47,10 @@ const toDetailPage = (val) => {
 }
 </script>
 <style scoped lang='scss'>
-.achives {}
+.achives {
+    width: 100%;
+    height: calc(100vh - 350px);
+}
 
 .head {
     color: $text-p1;

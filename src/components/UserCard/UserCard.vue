@@ -19,8 +19,11 @@
                     <img src="./icon/搜索.svg" alt="" width="20px">
                 </div>
                 <div style="flex: 1;">
-                    <a-input v-model:value="data.value" placeholder="站内搜索" />
+                    <a-input v-model:value="data.searchValue" placeholder="站内搜索" />
                 </div>
+            </div>
+            <div>
+                <SearchResult :searchKey="data.searchValue" />
             </div>
             <div class="bottom">
                 <div v-for="item in data.navlist" :key="item.id" @click="JumpOtherPage(item)"
@@ -33,7 +36,7 @@
 
         <div class="welcome">
             <div class="title">欢迎，旅行者:</div>
-            <div class="textbox">吴蜀风流自古同，归去应须早。您已来到世界边缘，喜欢的话欢迎评论区交流吧～</div>
+            <div class="textbox">吴蜀风流自古同，归去应须早。您已来到世界边缘～</div>
         </div>
 
         <div class="widget-wrapper ">
@@ -51,10 +54,16 @@
 <script setup>
 import { reactive, toRefs, onBeforeMount, onMounted } from 'vue'
 import { getArticleListSe } from '@/api/api'
+import SearchResult from './components/SearchResult.vue'
+import { useDebounceFn } from '@vueuse/core'
+
 //引入路由
 import { useRouter } from 'vue-router'
 const router = useRouter();
 const data = reactive({
+    searchTempValue: '',
+    searchValue: '',
+    searchList: [],
     activeId: 1,
     navlist: [
         //静态加载加require
@@ -95,14 +104,19 @@ onBeforeMount(() => {
 
 
 
+
+
+
+
 </script>
 <style scoped lang='scss'>
 .container {
-    width: 286px;
+    width: 100%;
     height: 100vh;
     font-family: LXGWWenKaiMonoScreen;
     background: linear-gradient(to bottom, #92FE9D, #00C9FF);
     user-select: none;
+    overflow: hidden;
 }
 
 .header {
@@ -121,6 +135,7 @@ onBeforeMount(() => {
             height: 44px;
             border-radius: 50%;
             cursor: pointer;
+
         }
     }
 

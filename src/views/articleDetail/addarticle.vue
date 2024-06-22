@@ -146,11 +146,15 @@ const vditor = ref()
 // 3. 在组件初始化时，就创建Vditor对象，并引用
 onMounted(() => {
     vditor.value = new Vditor('vditor', {
-        height: '50vh',
+        height: '60vh',
         width: '100%',
         cache: {
             //是否开启本地缓存
             enable: false
+        },
+        outline: {
+            enable: true,
+            position: "right"
         }
     })
 })

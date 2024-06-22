@@ -1,6 +1,6 @@
 <template>
     <div class="category">
-        <div class="contentbox" v-show="data.pageState.current == 0">
+        <div class="contentbox" v-if="data.pageState.current == 0">
             <div class="categoryli" v-for="item in data.categoryList " :key="item._id" @click="handClickLi(item)">
 
                 <div class="left">
@@ -10,7 +10,7 @@
                 <div class="right">({{ item.count }})</div>
             </div>
         </div>
-        <div class="listbox" v-show="!data.pageState.current == 0">
+        <div class="listbox" v-if="!data.pageState.current == 0">
             <div class="breadcrumbbox">
                 <a-breadcrumb separator=">">
                     <a-breadcrumb-item href="" @click="backtohome">返回</a-breadcrumb-item>
@@ -19,6 +19,7 @@
             </div>
 
             <ArticleList :queryObj="data.queryinfo" />
+
         </div>
     </div>
 </template>
@@ -82,6 +83,9 @@ const backtohome = (val) => {
 </script>
 <style scoped lang='scss'>
 .category {
+    width: 100%;
+    min-height: calc(100vh - 350px);
+
     .contentbox {}
 
 }
@@ -110,6 +114,7 @@ const backtohome = (val) => {
 }
 
 .listbox {
+
     .breadcrumbbox {
         padding: 10px 10px 0px 10px;
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="articlelistbox">
+    <div class="articlelistbox ">
         <div class="contentbox">
             <div class="card" v-for="item in data.list" :key="item.id" @click="toDetailPage(item._id)">
                 <div class="titel"> {{ item.title }}</div>

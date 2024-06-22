@@ -1,45 +1,47 @@
 <template>
-    <a-row style="background-color: #F9FAFB !important;">
-        <a-col class="left">
-            <div class="banner">
-                <div class="bannerbg">
-                    <img src="@/assets/img/banner.jpg" alt="" width="100%" height="100%">
-                </div>
 
-                <div class="content ">
-                    <div class="bannertop">
-                        <div class="breadcrumbbox">
-                            <a-breadcrumb>
-                                <a-breadcrumb-item><a href="/">主页</a></a-breadcrumb-item>
-                                <a-breadcrumb-item>{{ data.article.categoryName }}</a-breadcrumb-item>
+    <div class="detailbox">
+        <div class="banner">
+            <div class="bannerbg">
+                <img src="@/assets/img/banner.jpg" alt="" width="100%" height="100%">
+            </div>
 
-                            </a-breadcrumb>
-                        </div>
-                        <div style="display: flex;">
-                            <div> Mr. A </div>
-                            <div class="time1">
-                                <span style="margin: 0 10px;">|</span>
-                                <span>{{ data.article.create_time }}</span>
-                            </div>
+            <div class="content ">
+                <div class="bannertop">
+                    <div class="breadcrumbbox">
+                        <a-breadcrumb>
+                            <a-breadcrumb-item><a href="/">主页</a></a-breadcrumb-item>
+                            <a-breadcrumb-item>{{ data.article.categoryName }}</a-breadcrumb-item>
 
-                            <div class="time2">
-                                <span style="margin: 0 10px;">|</span>
-                                <span>更新于{{ data.article.update_time }}</span>
-                            </div>
+                        </a-breadcrumb>
+                    </div>
+                    <div style="display: flex;">
+                        <div> Mr. A </div>
+                        <div class="time1">
+                            <span style="margin: 0 10px;">|</span>
+                            <span>{{ data.article.create_time }}</span>
                         </div>
 
+                        <div class="time2">
+                            <span style="margin: 0 10px;">|</span>
+                            <span>更新于{{ data.article.update_time }}</span>
+                        </div>
                     </div>
-                    <div class=" bannertitle">
-                        {{ data.article.title }}
-                    </div>
+
+                </div>
+                <div class=" bannertitle">
+                    {{ data.article.title }}
                 </div>
             </div>
-            <div class="maincontent">
-                <div id="preview"></div>
-            </div>
-        </a-col>
-        <a-col :span="8" class="right">col-12</a-col>
-    </a-row>
+        </div>
+        <div class="maincontent">
+            <div id="preview"></div>
+        </div>
+    </div>
+
+
+
+
 </template>
 
 <script setup>
@@ -92,6 +94,10 @@ watch(
 const renderMarkdown = (md) => {
     Vditor.preview(document.getElementById("preview"), md, {
         hljs: { style: "github" },
+        outline: {
+            enable: true,
+            position: "right"
+        }
     });
 }
 
@@ -99,104 +105,101 @@ const renderMarkdown = (md) => {
 
 </script>
 <style scoped lang='scss'>
-.right {
-    user-select: none;
+.detailbox {
+    background-color: #F9FAFB !important;
+}
+
+.banner:hover {
+    img {
+        filter: blur(10px);
+    }
+
 }
 
 
-.left {
-    .banner:hover {
-        img {
-            filter: blur(10px);
-        }
 
-    }
+.banner {
+    // width: 720px;
+    height: 200px;
+    border-radius: 16px;
+    overflow: hidden;
+    font-family: LXGWWenKaiMonoScreen;
+    overflow: hidden;
+    position: relative;
+    // background-image: url('@/assets/img/banner.jpg');
+    // background-size: cover;
 
-
-
-    .banner {
-        width: 720px;
-        height: 244px;
+    .bannerbg {
         border-radius: 16px;
-        overflow: hidden;
-        font-family: LXGWWenKaiMonoScreen;
-        overflow: hidden;
-        position: relative;
-        // background-image: url('@/assets/img/banner.jpg');
-        // background-size: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
 
-        .bannerbg {
-            border-radius: 16px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-
-            z-index: 1;
-
-            img {
-                -moz-user-select: -moz-none;
-                -khtml-user-select: none;
-                -webkit-user-select: none;
-                -o-user-select: none;
-                user-select: none;
-                object-fit: cover;
-            }
-        }
-
-        .time2 {
-            opacity: 0;
-        }
-
-        .time2:hover {
-            opacity: .8;
-        }
-
-        .content {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            color: white;
-
-
-            .bannertop {
-                padding: 15px;
-
-                line-height: 1.6;
-                user-select: none;
-                color: white;
-                z-index: 2;
-            }
-
-            .bannertitle {
-                display: flex;
-                justify-content: center;
-                font-size: 28px;
-                padding-bottom: 40px;
-                z-index: 2;
-
-                //文字描边效果
-                background-image: linear-gradient(#FFFFFF, #92FE9D, );
-                background-clip: text;
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                /*需要文字透明*/
-            }
-
-
-
+        img {
+            -moz-user-select: -moz-none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+            object-fit: cover;
         }
     }
 
-    .maincontent {
-        margin-top: 20px;
-        width: 720px;
-        padding: 10px;
+    .time2 {
+        opacity: 0;
+    }
+
+    .time2:hover {
+        opacity: .8;
+    }
+
+    .content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        color: white;
+
+
+        .bannertop {
+            padding: 15px;
+
+            line-height: 1.6;
+            user-select: none;
+            color: white;
+            z-index: 2;
+        }
+
+        .bannertitle {
+            display: flex;
+            justify-content: center;
+            font-size: 28px;
+            padding-bottom: 40px;
+            z-index: 2;
+
+            //文字描边效果
+            background-image: linear-gradient(#FFFFFF, #92FE9D, );
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            /*需要文字透明*/
+        }
+
+
+
     }
 }
+
+.maincontent {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+}
+
 
 .breadcrumbbox {
 

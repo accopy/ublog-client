@@ -25,6 +25,10 @@ export default {
 }
 
 .rb {
-  border: 10px solid red;
+  border: 1px solid red;
+}
+
+.gb {
+  border: 1px solid green;
 }
 </style>
