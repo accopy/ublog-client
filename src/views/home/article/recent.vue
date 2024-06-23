@@ -1,6 +1,6 @@
 <template>
     <div class="recent ">
-        <ArticleList :query="queryinfo"></ArticleList>
+        <ArticleList :queryObj="data.queryinfo"></ArticleList>
     </div>
 </template>
 

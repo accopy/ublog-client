@@ -29,6 +29,23 @@ export const addArticle = (data) => {
 
 //编辑文章
 
+export const updateArticle = (data) => {
+    return request({
+        url: '/updateArticle',
+        method: 'post',
+        data
+    })
+}
+
+//删除文章
+export const delArticle = (data) => {
+    return request({
+        url: '/delArticle',
+        method: 'post',
+        data
+    })
+}
+
 export const searchArticle = (data) => {
     return request({
         url: '/searchArticle',

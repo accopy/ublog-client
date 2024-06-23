@@ -10,7 +10,7 @@
 
         </div>
         <div class="listbox" v-if="data.queryinfo.key">
-            <ArticleList :queryObj="data.queryinfo" />
+            <ArticleList :queryObj="data.queryinfo" @Refresh="gettaglist" />
         </div>
     </div>
 </template>
@@ -26,33 +26,39 @@ const router = useRouter();
 const data = reactive({
 
     queryinfo: {
-        querytype: "tags",
+        querytype: "",
         key: '',
     },
     tagsList: [],
 });
 
 
-onBeforeMount(() => {
-
-    //页面状态设置
-
-
-    //获取全部分类
-
+const gettaglist = () => {
     getTagsList().then(res => {
         console.log(' data.categoryList', res);
 
         data.tagsList = res.data
 
     })
+}
+
+onBeforeMount(() => {
+
+    //页面状态设置
+
+    gettaglist()
+    //获取全部分类
+
+
 
 
 })
 
 const handClickTag = (val) => {
-
+    data.queryinfo.querytype = 'tags'
     data.queryinfo.key = val.name
+    console.log('   data.queryinfo', data.queryinfo);
+
 }
 
 const backtohome = (val) => {

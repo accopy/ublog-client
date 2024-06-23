@@ -10,6 +10,7 @@ import Tags from '@/views/home/article/tags.vue'
 import Archives from '@/views/home/article/archives.vue'
 import AddArticle from '@/views/articleDetail/addarticle.vue'
 import Articledetail from '@/views/articleDetail/articledetail.vue'
+import Editarticle from '@/views/articleDetail/editarticle.vue'
 
 
 const routes = [
@@ -40,6 +41,7 @@ const routes = [
             },
 
             { path: '/add', component: AddArticle },
+            { path: '/edit', component: Editarticle },
             { path: '/detail', component: Articledetail },
         ]
     },

@@ -38,11 +38,16 @@
 import { reactive, onBeforeMount, defineProps, toRefs, watch } from 'vue'
 import { getArticleList } from '@/api/api'
 import { useRouter } from 'vue-router'
+import { message } from 'ant-design-vue';
 const router = useRouter();
 const props = defineProps({
     //子组件接收父组件传递过来的值
     queryObj: Object,
 })
+
+
+// 使用defineEmits注册一个自定义事件刷新
+const emit = defineEmits(["Refresh"])
 
 const data = reactive({
     list: [
@@ -51,23 +56,12 @@ const data = reactive({
         pageSize: 5,
         pageNum: 1,
         queryinfo: {
-            querytype: 'recent'
+            querytype: '',
+            key: ''
         }
     },
     total: 0,
 });
-
-//监听prop
-watch(
-    () => props.queryObj,
-    (newVal, oldVal) => {
-
-        data.pageData.queryinfo = newVal
-        console.log('请求体', data.pageData)
-        getList(data.pageData)
-    },
-    { deep: true }
-)
 
 //定义获取个人文章
 const getList = (val) => {
@@ -76,15 +70,43 @@ const getList = (val) => {
     // console.log('query', query);
 
     getArticleList(val).then(res => {
-        data.list = res.data.list
-        data.total = res.data.count
+        if (res.data != 400) {
+            data.list = res.data.list
+            data.total = res.data.count
+            console.log(res, '111111')
+
+        }
+        //若标签查询结果为空,则删除标签并刷新
+        else if (res.data == 400) {
+            message.error('空标签');
+            data.list = []
+            data.total = 0
+            emit('Refresh')
+        }
+
+
+
 
     })
 };
 
-onBeforeMount(() => {
-    getList(data.pageData)
-})
+//监听prop
+watch(
+    () => props.queryObj,
+    (newVal, oldVal) => {
+        data.pageData.queryinfo = newVal
+        console.log('子组件', data.pageData.queryinfo)
+
+
+        getList(data.pageData)
+    },
+    { deep: true, immediate: true }
+
+)
+
+
+
+
 
 
 const toDetailPage = (val) => {

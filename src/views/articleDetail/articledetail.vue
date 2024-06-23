@@ -1,6 +1,8 @@
 <template>
+    <div class="toolbar">
 
-    <div class="detailbox">
+    </div>
+    <div class=" detailbox">
         <div class="banner">
             <div class="bannerbg">
                 <img src="@/assets/img/banner.jpg" alt="" width="100%" height="100%">
@@ -27,10 +29,18 @@
                             <span>更新于{{ data.article.update_time }}</span>
                         </div>
                     </div>
+                    <div class="caozuo">
+                        <span class="edit" @click="handleEditClick">编辑</span>
+                        <span class="spanfg">/</span>
+                        <span class="delete" @click="handleDeleteClick">删除</span>
+                    </div>
 
                 </div>
                 <div class=" bannertitle">
                     {{ data.article.title }}
+                </div>
+                <div>
+
                 </div>
             </div>
         </div>
@@ -46,13 +56,18 @@
 
 <script setup>
 import { reactive, toRefs, onBeforeMount, onMounted, ref, watch } from 'vue'
-import { getArticleDetail } from "@/api/api"
+import { getArticleDetail, delArticle } from "@/api/api"
+//引入路由
+import { useRouter } from 'vue-router'
+const router = useRouter();
+
 // 1.1 引入Vditor 构造函数
 import Vditor from "vditor"
 // 1.2 引入样式
 import 'vditor/dist/index.css';
 
 import { useRoute } from 'vue-router'
+import { message } from 'ant-design-vue';
 
 //首先在setup中定义
 const route = useRoute()
@@ -102,6 +117,28 @@ const renderMarkdown = (md) => {
 }
 
 
+const handleEditClick = e => {
+    router.push({
+        path: '/edit',
+        query: { articleId: data.article._id }
+
+    })
+};
+
+const handleDeleteClick = e => {
+
+    delArticle({ id: data.article._id }).then(res => {
+        if (res.code == 200) {
+            message.success('删除成功！')
+            router.go(-1)
+        }
+
+    })
+
+
+};
+
+
 
 </script>
 <style scoped lang='scss'>
@@ -148,6 +185,33 @@ const renderMarkdown = (md) => {
         }
     }
 
+    .caozuo {
+        line-height: 1.6;
+        user-select: none;
+        color: $text-meta;
+        z-index: 2;
+
+        opacity: 0;
+
+        .spanfg {
+            margin: 10px;
+
+        }
+
+        .edit {
+            cursor: pointer;
+        }
+
+        .delete {
+            cursor: pointer;
+            color: red
+        }
+    }
+
+    .caozuo:hover {
+        opacity: .8;
+    }
+
     .time2 {
         opacity: 0;
     }
@@ -173,6 +237,8 @@ const renderMarkdown = (md) => {
             color: white;
             z-index: 2;
         }
+
+
 
         .bannertitle {
             display: flex;
@@ -224,5 +290,11 @@ const renderMarkdown = (md) => {
         color: white !important;
 
     }
+}
+
+.toolbar {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
 }
 </style>
