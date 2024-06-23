@@ -45,7 +45,7 @@
             </div>
         </div>
         <div class="maincontent">
-            <div id="preview"></div>
+            <div id="preview" class="vd"></div>
         </div>
     </div>
 
@@ -264,6 +264,11 @@ const handleDeleteClick = e => {
     margin-top: 20px;
     width: 100%;
     padding: 10px;
+
+    .vd {
+        overflow: hidden;
+    }
+
 }
 
 

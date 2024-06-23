@@ -80,7 +80,7 @@ const getList = (val) => {
         else if (res.data == 400) {
             message.error('空标签');
             data.list = []
-            data.total = 0
+            data.total = 1
             emit('Refresh')
         }
 

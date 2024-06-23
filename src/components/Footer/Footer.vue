@@ -2,7 +2,7 @@
     <div class="footer">
         <a-divider />
         <div class="copyright">
-            蜀江水碧蜀山青，圣主朝朝暮暮情。本站由 accopy 创建
+            蜀江水碧蜀山青，圣主朝朝暮暮情。
         </div>
 
     </div>

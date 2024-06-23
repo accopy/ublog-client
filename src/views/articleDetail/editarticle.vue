@@ -42,7 +42,9 @@
             <div id="vditor" ref="vditorRef">
             </div>
             <div class="handleline">
-                <a-button>取消</a-button>
+                <a-button @click="() => {
+                    router.go(-1)
+                }">取消</a-button>
                 <a-button type="primary" html-type="submit">更新</a-button>
 
             </div>

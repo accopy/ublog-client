@@ -4,7 +4,7 @@
         <div class="header">
             <div class="logo_wrap">
                 <div class="avatar">
-                    <img src="@/assets/img/logo.png" alt="">
+                    <img src="@/assets/img/avatar.png" alt="">
                 </div>
                 <div>
                     <div class="username">ACCOPY</div>

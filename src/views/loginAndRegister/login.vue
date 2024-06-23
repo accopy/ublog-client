@@ -13,8 +13,12 @@
                 <a-form-item label="密码" name="password" :rules="[{ required: true, message: '请输入密码!' }]">
                     <a-input-password v-model:value="formState.password" />
                 </a-form-item>
-                <div style="font-size: 10px; display: flex;justify-content: flex-end;margin-bottom: 10px"
+                <!-- <div style="font-size: 10px; display: flex;justify-content: flex-end;margin-bottom: 10px"
                     @click="toRegPage">
+                    <a>还没有账号？去注册</a>
+                </div> -->
+                <div style="font-size: 10px; display: flex;justify-content: flex-end;margin-bottom: 10px;user-select: none;"
+                    @click="">
                     <a>还没有账号？去注册</a>
                 </div>
                 <div style="display: flex;margin-bottom: 20px ">
@@ -29,19 +33,37 @@
 
             </a-form>
         </div>
-
+        <contextHolder />
     </div>
 
 </template>
 <script setup>
-import { reactive } from 'vue';
+import { reactive, onMounted, h } from 'vue';
 import { useRouter } from 'vue-router'
+const router = useRouter();
 import { login } from '@/api/api'
 import { message } from 'ant-design-vue';
-const router = useRouter();
+//引入提示
+import { notification } from 'ant-design-vue';
+const [api, contextHolder] = notification.useNotification();
+const open = placement => openNotification(placement);
+import { SmileOutlined } from '@ant-design/icons-vue';
+const openNotification = placement => {
+    api.info({
+        message: `提示`,
+        description:
+            '此项目正处于开发阶段，未开放注册，点击登录可预览项目~~',
+        placement,
+        icon: () =>
+            h(SmileOutlined, {
+                style: 'color: #108ee9',
+            }),
+    });
+};
+
 const formState = reactive({
-    email: '',
-    password: '',
+    email: '123456@qq.com',
+    password: '123456',
 });
 const toRegPage = () => {
     router.push({
@@ -50,7 +72,13 @@ const toRegPage = () => {
     })
 };
 
+onMounted(() => {
+    open('topRight')
+})
+
+
 const onFinish = values => {
+
     login(formState).then(res => {
         if (res.code == 200) {
             let token = res.data
@@ -76,6 +104,7 @@ const reset = () => {
     formState.email = '',
         formState.password = ''
 }
+
 </script>
 
 <style lang="scss" scoped>
