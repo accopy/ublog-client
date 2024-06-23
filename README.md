@@ -1,6 +1,6 @@
 # ublog
 
-# ublog服务器链接
+# ublog服务器链接地址
 https://github.com/accopy/ublog-server
 
 
