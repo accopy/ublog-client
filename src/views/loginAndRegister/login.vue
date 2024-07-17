@@ -4,10 +4,11 @@
             <div class="logo">
                 <img src="@/assets/img/logo.png" alt="" draggable="false" oncontextmenu="return false;">
             </div>
-            <a-form :model="formState" name="basic" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }"
+            <a-form :model="formState" name="basic" :label-col="{ span: 6 }" :wrappe-col="{ span: 18 }"
                 autocomplete="off" @finish="onFinish" @finishFailed="onFinishFailed">
-                <a-form-item label="邮箱" name="email" :rules="[{ required: true, message: '请输入你的邮箱!' }]">
-                    <a-input v-model:value="formState.email" />
+
+                <a-form-item label="账号" name="username" :rules="[{ required: true, message: '请输入用户名!' }]">
+                    <a-input v-model:value="formState.username" />
                 </a-form-item>
 
                 <a-form-item label="密码" name="password" :rules="[{ required: true, message: '请输入密码!' }]">
@@ -62,8 +63,8 @@ const openNotification = placement => {
 };
 
 const formState = reactive({
-    email: '123456@qq.com',
-    password: '123456',
+    username: 'admin',
+    password: 'admin123',
 });
 const toRegPage = () => {
     router.push({

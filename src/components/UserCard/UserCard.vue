@@ -53,7 +53,7 @@
 
 <script setup>
 import { reactive, toRefs, onBeforeMount, onMounted } from 'vue'
-import { getArticleListSe } from '@/api/api'
+import { getArticleListSe } from '@/api/api-public'
 import SearchResult from './components/SearchResult.vue'
 
 

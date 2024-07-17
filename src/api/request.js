@@ -1,5 +1,6 @@
 // export const baseUrl = '/prod-api'
 export const baseUrl = 'http://localhost:3000/'
+// export const baseUrl = 'http://47.108.94.23/:3000/'
 import { message } from 'ant-design-vue';
 
 
@@ -31,13 +32,13 @@ service.interceptors.response.use((res) => {
 
     const code = res.data.code//code是后端的状态码
     if (code !== 200) {
-        message.error(res.data.msg);
+        message.error(res.data.data);
         //请求失败（包括token失效，302，404...根据和后端约定好的状态码做出不同的处理）
-        console.log('res.data.code', res.data.code);
-        if (code == 401) {
-            //跳转到登录页
-            window.location.href = "/#/login";
-        }
+        alert('res.data.code', res.data.data);
+        // if (code == 401) {
+        //     //跳转到登录页
+        //     window.location.href = "/#/login";
+        // }
 
         return Promise.reject(res.data)
     } else {

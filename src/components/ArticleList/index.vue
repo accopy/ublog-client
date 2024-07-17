@@ -26,7 +26,7 @@
         </div>
         <div class="emptybox " v-else>
             <a-empty>
-                <a-button type="primary" @click="toAddPage">Create Now</a-button>
+
             </a-empty>
         </div>
 
@@ -36,7 +36,7 @@
 
 <script setup>
 import { reactive, onBeforeMount, defineProps, toRefs, watch } from 'vue'
-import { getArticleList } from '@/api/api'
+import { getArticleList } from '@/api/api-public'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue';
 const router = useRouter();
@@ -133,7 +133,6 @@ const toAddPage = (val) => {
     router.push({
         path: '/add',
 
-
     })
 }
 
@@ -141,7 +140,9 @@ const toAddPage = (val) => {
 </script>
 <style scoped lang='scss'>
 .articlelistbox {
-    height: 100%
+    width: 100%;
+    height: 100%;
+    min-height: calc(100vh - 250px);
 }
 
 .card:hover {
@@ -215,6 +216,7 @@ const toAddPage = (val) => {
     margin-top: 20px;
     display: flex;
     justify-content: center;
+
     // pointer-events: none !important;
 }
 

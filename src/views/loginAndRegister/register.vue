@@ -6,6 +6,10 @@
             </div>
             <a-form :model="formState" name="basic" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }"
                 autocomplete="off" @finish="onFinish" @finishFailed="onFinishFailed">
+
+                <a-form-item label="用户名" name="username" :rules="[{ required: true, message: '请输入用户名!' }]">
+                    <a-input v-model:value="formState.username" />
+                </a-form-item>
                 <a-form-item label="邮箱" name="email" :rules="[{ required: true, message: '请输入你的邮箱!' }]">
                     <a-input v-model:value="formState.email" />
                 </a-form-item>
@@ -44,6 +48,7 @@ import { message } from 'ant-design-vue';
 
 const router = useRouter();
 const formState = reactive({
+    username: '',
     email: '',
     password: '',
     password2: '',

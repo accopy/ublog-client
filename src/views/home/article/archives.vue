@@ -3,9 +3,6 @@
         <div v-for="item in data.list" :key="item.year" style="margin-top: 15px;">
             <div class="head">
                 <span class=""> {{ item.year }}</span>
-
-
-
             </div>
             <div class="achivesli" v-for="e in item.list" :key="e._id" @click="toDetailPage(e._id)">
 
@@ -22,7 +19,7 @@
 
 <script setup>
 import { reactive, toRefs, onBeforeMount, onMounted } from 'vue'
-import { getArticleTimeLine } from '@/api/api'
+import { getArticleTimeLine } from '@/api/api-public'
 import { useRouter } from 'vue-router'
 const router = useRouter();
 
@@ -81,8 +78,6 @@ const toDetailPage = (val) => {
     display: flex;
     border-bottom: 1px dashed $text-meta;
     padding: 3px 0;
-
-
 
     .left {
         margin-right: 14px;

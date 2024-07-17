@@ -56,7 +56,7 @@
 
 <script setup>
 import { reactive, toRefs, onBeforeMount, onMounted, ref, watch } from 'vue'
-import { getArticleDetail, delArticle } from "@/api/api"
+import { getArticleDetail } from "@/api/api-public"
 //引入路由
 import { useRouter } from 'vue-router'
 const router = useRouter();

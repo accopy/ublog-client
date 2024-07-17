@@ -22,10 +22,8 @@ const data = reactive({
 .recent {
     width: 100%;
     height: 100%;
-    min-height: calc(100vh - 350px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-height: calc(100vh - 250px);
+
 }
 
 .card:hover {
