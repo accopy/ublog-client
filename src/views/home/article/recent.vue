@@ -6,7 +6,7 @@
 
 <script setup>
 import { reactive } from 'vue'
-import ArticleList from '@/components/ArticleList/index.vue';
+import ArticleList from '../components/ArticleList/index.vue';
 import { useRouter } from 'vue-router'
 const router = useRouter();
 

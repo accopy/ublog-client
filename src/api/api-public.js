@@ -40,3 +40,12 @@ export const getCategoryNum = () => {
         method: 'post',
     })
 }
+
+//搜索文章
+export const searchArticle = (data) => {
+    return request({
+        url: '/api/searchArticle',
+        method: 'post',
+        data
+    })
+}

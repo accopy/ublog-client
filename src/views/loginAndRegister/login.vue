@@ -2,7 +2,7 @@
     <div class="bgbox">
         <div class="loginbox">
             <div class="logo">
-                <img src="@/assets/img/logo.png" alt="" draggable="false" oncontextmenu="return false;">
+                <img src="@/assets/logo.png" alt="" draggable="false" oncontextmenu="return false;">
             </div>
             <a-form :model="formState" name="basic" :label-col="{ span: 6 }" :wrappe-col="{ span: 18 }"
                 autocomplete="off" @finish="onFinish" @finishFailed="onFinishFailed">
@@ -18,10 +18,6 @@
                     @click="toRegPage">
                     <a>还没有账号？去注册</a>
                 </div> -->
-                <div style="font-size: 10px; display: flex;justify-content: flex-end;margin-bottom: 10px;user-select: none;"
-                    @click="">
-                    <a>还没有账号？去注册</a>
-                </div>
                 <div style="display: flex;margin-bottom: 20px ">
                     <div style="width: 75px;"></div>
                     <div style="display: flex;justify-content: space-between ; flex: 1;margin-right: 30px">
@@ -53,7 +49,7 @@ const openNotification = placement => {
     api.info({
         message: `提示`,
         description:
-            '此项目正处于开发阶段，未开放注册，点击登录可预览项目~~',
+            'hallo~~',
         placement,
         icon: () =>
             h(SmileOutlined, {
@@ -86,7 +82,7 @@ const onFinish = values => {
             localStorage.setItem("token", 'Bearer ' + token)
             message.success('登录成功！');
             router.replace({
-                path: 'article',
+                path: 'background',
             })
         } else if (res.code == 400) {
             message.error('邮箱或密码错误！');
@@ -102,8 +98,8 @@ const onFinishFailed = errorInfo => {
 
 //重置
 const reset = () => {
-    formState.email = '',
-        formState.password = ''
+    formState.email = ''
+    formState.password = ''
 }
 
 </script>
@@ -140,9 +136,9 @@ const reset = () => {
 
 
         img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50px;
+            width: 50px;
+            height: 50px;
+
         }
     }
 }

@@ -16,7 +16,7 @@
 <script setup>
 import { reactive, toRefs, onBeforeMount, onMounted, defineProps, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import { searchArticle } from '@/api/api'
+import { searchArticle } from '@/api/api-public'
 import { useDebounceFn } from '@vueuse/core'
 const router = useRouter();
 const data = reactive({

@@ -2,7 +2,7 @@
     <div class="bgbox">
         <div class="loginbox">
             <div class="logo">
-                <img src="@/assets/img/logo.png" alt="" draggable="false" oncontextmenu="return false;">
+                <img src="@/assets/logo.png" alt="" draggable="false" oncontextmenu="return false;">
             </div>
             <a-form :model="formState" name="basic" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }"
                 autocomplete="off" @finish="onFinish" @finishFailed="onFinishFailed">
@@ -116,9 +116,9 @@ const reset = () => {
 
 
         img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50px;
+            width: 50px;
+            height: 50px;
+
         }
     }
 }

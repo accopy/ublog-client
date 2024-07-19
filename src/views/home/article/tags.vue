@@ -18,7 +18,7 @@
 <script setup>
 import { reactive, onBeforeMount } from 'vue'
 import { getTagsList } from '@/api/api'
-import ArticleList from '@/components/ArticleList/index.vue';
+import ArticleList from '../components/ArticleList/index.vue';
 import { useRouter } from 'vue-router'
 
 
