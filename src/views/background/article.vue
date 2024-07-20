@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <a-button type="primary" @click="showDrawer">新增文章</a-button>
+            <a-button type="primary" @click="showDrawer(null, 'add')">新增文章</a-button>
         </div>
 
         <a-table :dataSource="data.dataSource" :columns="data.columns">
@@ -64,9 +64,11 @@
             <a-button style="margin-right: 8px" @click="onCloseDrawer">取消</a-button>
             <a-button type="primary" @click="onCloseDrawer">提交</a-button>
         </template>
-        <!-- <ArticleDetail :articleId="data.choosedId" /> -->
-        <!-- <EditArticle :articleId="data.choosedId" :categoryList="data.categoryList" @Refresh="onCloseDrawerAndRefresh" /> -->
-        <AddArticle :categoryList="data.categoryList" @Refresh="onCloseDrawerAndRefresh" />
+        <ArticleDetail :articleId="data.choosedId" v-if="data.drawerMode == 'view'" />
+        <EditArticle :articleId="data.choosedId" :categoryList="data.categoryList" v-else-if="data.drawerMode == 'edit'"
+            @Refresh="onCloseDrawerAndRefresh" />
+        <AddArticle :categoryList="data.categoryList" v-else-if="data.drawerMode == 'add'"
+            @Refresh="onCloseDrawerAndRefresh" />
     </a-drawer>
 
 </template>
@@ -163,6 +165,7 @@ const showDrawer = (val, mode) => {
 
 //关闭抽屉
 const onCloseDrawer = () => {
+    data.drawerMode = ''
     data.open = false;
 };
 

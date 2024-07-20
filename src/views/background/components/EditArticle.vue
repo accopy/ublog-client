@@ -1,6 +1,6 @@
 <template>
     <div class="addview">
-        <a-form :model="data.formState" @finish="handleFinish" @finishFailed="handleFinishFailed" style="width: 100%;">
+        <a-form :model="data.formState" style="width: 100%;">
             <a-form-item label="标题">
                 <a-input v-model:value="data.formState.title" placeholder="请输入">
                     <template #prefix>
@@ -104,9 +104,7 @@ onMounted(() => {
             position: "right"
         },
         after: () => {
-
             vditor.value.setValue(data.formState.content)
-
         },
 
     })
@@ -126,6 +124,7 @@ const getarticledetail = () => {
             let result = res.data
             data.formState.title = result.title
             data.tagsState.tagsName = result.tagsName
+
             data.formState.category = { label: result.categoryName[0], value: result.category[0] }
 
             data.formState.content = result.content
@@ -154,11 +153,26 @@ const updatearticle = values => {
         if (res.code == 200) {
             message.success({ content: '提交成功!' })
             emit("Refresh")
+            resetform()
+
+
         }
 
     })
 };
 
+const resetform = () => {
+    data.formState = {
+        title: '',
+        content: '',
+        tagsName: [],
+        category: '',
+        //0草稿1发布    
+        state: 1,
+        author: '',
+        _id: ''
+    }
+}
 const tagColor = (val) => {
     let colorlist = ['pink', 'cyan', 'blue', '#f50', '#2db7f5', '#87d068', '#108ee9']
     let num = Number(val) % 7

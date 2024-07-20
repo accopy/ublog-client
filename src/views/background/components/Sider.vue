@@ -44,12 +44,6 @@ const items = reactive([
                 label: '分类管理',
                 title: '分类管理',
             },
-            {
-                key: 'sub13',
-                label: '标签管理',
-                title: 'Option 7',
-            },
-
         ],
     },
     {

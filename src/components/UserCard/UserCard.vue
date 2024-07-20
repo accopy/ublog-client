@@ -70,7 +70,7 @@ const data = reactive({
         { id: 1, img: require('./icon/文档.svg'), url: '/' },
         { id: 2, img: require('./icon/社交.svg'), url: '' },
         { id: 3, img: require('./icon/爱心.svg'), url: '' },
-        { id: 4, img: require('./icon/写作.svg'), url: '/add' }
+        { id: 4, img: require('./icon/写作.svg'), url: '' }
     ],
     recentlist: []
 })

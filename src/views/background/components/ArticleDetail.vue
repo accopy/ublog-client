@@ -55,15 +55,6 @@ onMounted(() => {
 
 })
 
-//监听路由
-// watch(
-//     () => route.query,
-//     (newVal, oldVal) => {
-//         getTagsList()
-//     },
-//     { deep: true }
-// )
-
 const renderMarkdown = (md) => {
     Vditor.preview(document.getElementById("preview"), md, {
         hljs: { style: "github" },

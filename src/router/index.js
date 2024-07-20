@@ -8,9 +8,8 @@ import RecentList from '@/views/home/article/recent.vue'
 import Category from '@/views/home/article/category.vue'
 import Tags from '@/views/home/article/tags.vue'
 import Archives from '@/views/home/article/archives.vue'
-import AddArticle from '@/views/articleDetail/addarticle.vue'
 import Articledetail from '@/views/articleDetail/articledetail.vue'
-import Editarticle from '@/views/articleDetail/editarticle.vue'
+
 
 import Background from '@/views/background/index.vue'
 import BackgroundHome from '@/views/background/home.vue'
