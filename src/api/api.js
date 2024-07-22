@@ -129,4 +129,27 @@ export const getArticleTimeLine = () => {
     })
 }
 
+//获取我的信息
+export const getmyinfo = () => {
+    return request({
+        url: `/myinfo`,
+        method: 'get',
+    })
+}
+
+//更改用户信息
+export const updatemyinfo = (data) => {
+    return request({
+        url: `/updatemyinfo`,
+        method: 'post',
+        data
+    })
+}
+
+export const upload = () => {
+    return request({
+        url: `/uploadImage`,
+        method: 'post',
+    })
+}
 

@@ -12,10 +12,10 @@
                     <div class="header" v-if="data.isMobile">
                         <div class="logo_wrap">
                             <div class="avatar">
-                                <img src="@/assets/img/logo.png" alt="">
+                                <img :src="data.imgurl" alt="">
                             </div>
                             <div>
-                                <div class="username">ACCOPY</div>
+                                <div class="username">{{ data.name }}</div>
                                 <div class="ind">风暴前夕</div>
                             </div>
                         </div>
@@ -32,18 +32,24 @@
 
 </template>
 <script setup>
-import { ref, defineComponent, onMounted, onUnmounted, reactive } from 'vue';
+import { ref, defineComponent, onMounted, onUnmounted, reactive, onBeforeMount } from 'vue';
 import UserCard from '../../components/UserCard/UserCard.vue';
 import Footer from '../../components/Footer/Footer.vue';
 
 import { useResizeObserver } from "@vueuse/core";
+import { getmyinfo } from '@/api/api'
 
 const divDom = ref()
 
 const data = reactive({
-    isMobile: null
+    isMobile: null,
+    name: '',
+    imgurl: ''
 });
 
+onBeforeMount(() => {
+    getMyinfo()
+})
 
 useResizeObserver(divDom, (entries) => {
     const entry = entries[0]
@@ -58,6 +64,17 @@ useResizeObserver(divDom, (entries) => {
     }
 
 })
+
+const getMyinfo = () => {
+
+
+    getmyinfo().then(res => {
+        localStorage.setItem('name', res.data.name)
+        localStorage.setItem('avatar', res.data.avatar)
+        data.name = localStorage.getItem('name')
+        data.imgurl = localStorage.getItem('avatar')
+    })
+}
 
 
 </script>

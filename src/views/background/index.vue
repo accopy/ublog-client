@@ -9,12 +9,11 @@
 
 
                 </a-layout-sider>
-                <a-layout-content :style="contentStyle">
-
+                <a-layout-content :style="contentStyle" class="content">
                     <router-view></router-view>
                 </a-layout-content>
             </a-layout>
-            <a-layout-footer :style="footerStyle">Footer</a-layout-footer>
+
         </a-layout>
     </div>
 
@@ -29,5 +28,10 @@ import Sider from './components/Sider.vue';
 .container {
     height: 100vh;
     overflow: hidden;
+}
+
+.content {
+    overflow-y: scroll;
+    margin: 0 10px;
 }
 </style>

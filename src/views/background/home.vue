@@ -1,6 +1,6 @@
 <template>
-    <div>home
-
+    <div>
+        一些数据
     </div>
 </template>
 

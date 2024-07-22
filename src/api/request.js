@@ -34,7 +34,7 @@ service.interceptors.response.use((res) => {
     if (code !== 200) {
         message.error(res.data.data);
         //请求失败（包括token失效，302，404...根据和后端约定好的状态码做出不同的处理）
-        alert('res.data.code', res.data.data);
+        // alert('res.data.code', res.data.data);
         // if (code == 401) {
         //     //跳转到登录页
         //     window.location.href = "/#/login";

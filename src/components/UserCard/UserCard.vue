@@ -4,10 +4,10 @@
         <div class="header">
             <div class="logo_wrap">
                 <div class="avatar">
-                    <img src="@/assets/img/avatar.png" alt="">
+                    <img :src="data.imageUrl" alt="">
                 </div>
                 <div>
-                    <div class="username">ACCOPY</div>
+                    <div class="username">{{ data.name }}</div>
                     <div class="ind">风暴前夕</div>
                 </div>
             </div>
@@ -52,7 +52,7 @@
 </template>
 
 <script setup>
-import { reactive, toRefs, onBeforeMount, onMounted } from 'vue'
+import { reactive, ref, onBeforeMount, } from 'vue'
 import { getArticleListSe } from '@/api/api-public'
 import SearchResult from './components/SearchResult.vue'
 
@@ -72,8 +72,13 @@ const data = reactive({
         { id: 3, img: require('./icon/爱心.svg'), url: '' },
         { id: 4, img: require('./icon/写作.svg'), url: '' }
     ],
-    recentlist: []
+    recentlist: [],
+    imageUrl: '',
+    name: ''
 })
+
+
+
 
 const JumpOtherPage = (val) => {
     if (val.url) {
@@ -96,10 +101,17 @@ const toDetailPage = (val) => {
     })
 }
 
-onBeforeMount(() => {
-    getArticleListSe().then(res => {
+const getarticleListse = () => {
+    getArticleListSe().then(res => [
         data.recentlist = res.data
-    })
+    ])
+}
+onBeforeMount(() => {
+    data.name = localStorage.getItem('name')
+    data.imageUrl = localStorage.getItem('avatar')
+    getarticleListse()
+
+
 })
 
 

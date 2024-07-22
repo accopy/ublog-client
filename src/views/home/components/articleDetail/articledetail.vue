@@ -29,12 +29,6 @@
                             <span>更新于{{ data.article.update_time }}</span>
                         </div>
                     </div>
-                    <div class="caozuo">
-                        <span class="edit" @click="handleEditClick">编辑</span>
-                        <span class="spanfg">/</span>
-                        <span class="delete" @click="handleDeleteClick">删除</span>
-                    </div>
-
                 </div>
                 <div class=" bannertitle">
                     {{ data.article.title }}
@@ -117,29 +111,6 @@ const renderMarkdown = (md) => {
 }
 
 
-const handleEditClick = e => {
-    router.push({
-        path: '/edit',
-        query: { articleId: data.article._id }
-
-    })
-};
-
-const handleDeleteClick = e => {
-
-    delArticle({ id: data.article._id }).then(res => {
-        if (res.code == 200) {
-            message.success('删除成功！')
-            router.go(-1)
-        }
-
-    })
-
-
-};
-
-
-
 </script>
 <style scoped lang='scss'>
 .detailbox {
@@ -185,32 +156,8 @@ const handleDeleteClick = e => {
         }
     }
 
-    .caozuo {
-        line-height: 1.6;
-        user-select: none;
-        color: $text-meta;
-        z-index: 2;
 
-        opacity: 0;
 
-        .spanfg {
-            margin: 10px;
-
-        }
-
-        .edit {
-            cursor: pointer;
-        }
-
-        .delete {
-            cursor: pointer;
-            color: red
-        }
-    }
-
-    .caozuo:hover {
-        opacity: .8;
-    }
 
     .time2 {
         opacity: 0;

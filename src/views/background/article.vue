@@ -1,7 +1,8 @@
 <template>
     <div>
-        <div>
+        <div class="top">
             <a-button type="primary" @click="showDrawer(null, 'add')">新增文章</a-button>
+            <a-input-search v-model:value="data.searchKey" placeholder="请输入搜索关键字" enter-button @search="onSearch" />
         </div>
 
         <a-table :dataSource="data.dataSource" :columns="data.columns">
@@ -21,9 +22,9 @@
                     </a>
                 </template>
 
-                <template v-else-if="column.key === 'content'">
+                <template v-else-if="column.key === 'desc'">
 
-                    {{ record.content }}
+                    {{ record.desc }}
 
                 </template>
 
@@ -42,8 +43,6 @@
                         <a-button type="primary" size="small" style="margin-right: 10px;"
                             @click="showDrawer(record._id, 'edit')">编辑</a-button>
 
-
-
                         <a-popconfirm title="Are you sure ?" ok-text="Yes" cancel-text="No"
                             @confirm="deleteConfirm(record._id)" @cancel="deleteCancel">
                             <a-button type="dashed" size="small" danger>删除</a-button>
@@ -54,8 +53,6 @@
                 </template>
             </template>
         </a-table>
-
-
 
     </div>
 
@@ -75,7 +72,7 @@
 
 <script setup>
 import { reactive, onBeforeMount, defineProps, toRefs, watch, ref } from 'vue'
-import { getArticleList, delArticle, getCategoryList } from '@/api/api'
+import { getArticleList, delArticle, getCategoryList, searchArticle } from '@/api/api'
 import { message } from 'ant-design-vue';
 import { SmileOutlined } from '@ant-design/icons-vue';
 
@@ -103,6 +100,7 @@ onBeforeMount(() => {
 })
 
 const data = reactive({
+    searchKey: '',      //搜索值
     choosedId: '',     //选择文章的id
     open: false,       //抽屉状态
     drawerMode: '',    //抽屉模式 view查看，edit编辑，add添加
@@ -113,25 +111,55 @@ const data = reactive({
             title: '标题',
             dataIndex: 'title',
             key: 'title',
+            customCell: column => {
+                return {
+                    style: {
+                        'min-width': "300px",
+
+                    }
+                };
+            }
         },
         {
             title: '分类',
             dataIndex: 'categoryName',
             key: 'categoryName',
+            customCell: column => {
+                return {
+                    style: {
+                        'min-width': "120px",
+                    }
+                };
+            }
         },
         {
-            title: '内容',
-            dataIndex: 'content',
-            key: 'content',
+            title: '内容简介',
+            dataIndex: 'desc',
+            key: 'desc',
         },
         {
             title: '标签',
             dataIndex: 'tagsName',
             key: 'tagsName',
+            customCell: column => {
+                return {
+                    style: {
+                        'min-width': "250px",
+                    }
+                };
+            }
         },
         {
             title: '操作',
             key: 'action',
+            customCell: column => {
+                return {
+                    style: {
+                        'min-width': "200px",
+
+                    }
+                };
+            }
         },
     ],
     pageData: {
@@ -174,6 +202,20 @@ const onCloseDrawerAndRefresh = () => {
     data.open = false;
     getList(data.pageData)
 };
+
+
+//搜索文章
+const search = () => {
+    searchArticle({ key: data.searchKey }).then(res => {
+        if (res.code == 200) {
+            data.list = res.data
+
+        }
+
+    })
+};
+
+
 
 //定义获取个人文章
 const getList = (val) => {
@@ -233,4 +275,18 @@ const deleteCancel = e => {
 
 
 </script>
-<style scoped lang='scss'></style>
+<style scoped lang='scss'>
+.top {
+    padding: 20px 0px;
+    display: flex;
+
+    :deep(.ant-input-wrapper) {
+        //括号中为需要修改的类名
+        width: 300px;
+        margin: 0 10px
+    }
+
+
+
+}
+</style>
