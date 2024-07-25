@@ -74,4 +74,11 @@ export const getCategoryList = async (val) => {
     })
 }
 
+//获取全部标签
+export const getTagsList = () => {
+    return request({
+        url: `/api/getTagsList`,
+        method: 'get',
+    })
+}
 

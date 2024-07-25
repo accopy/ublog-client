@@ -53,7 +53,7 @@ const emit = defineEmits(["Refresh"])
 const data = reactive({
     list: [],
     pageData: {
-        pageSize: 5,
+        pageSize: 10,
         pageNum: 1,
         queryinfo: {
             querytype: '',

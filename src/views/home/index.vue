@@ -12,7 +12,8 @@
                     <div class="header" v-if="data.isMobile">
                         <div class="logo_wrap">
                             <div class="avatar">
-                                <img :src="userStore.avatar" alt="">
+                                <img :src="userStore.avatar" alt="" v-if="userStore.avatar">
+
                             </div>
                             <div>
                                 <div class="username">{{ userStore.name }}</div>
@@ -20,8 +21,10 @@
                             </div>
                         </div>
                     </div>
+                    <div class="homecontent">
+                        <router-view></router-view>
+                    </div>
 
-                    <router-view></router-view>
                     <Footer />
                 </div>
 
@@ -78,6 +81,10 @@ useResizeObserver(divDom, (entries) => {
 <style scoped lang="scss">
 .homecontainer {
     background-color: #F9FAFB;
+}
+
+.homecontent {
+    min-height: calc(100vh - 204px);
 }
 
 .userCard {

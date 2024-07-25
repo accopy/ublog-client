@@ -2,8 +2,12 @@
     <div class="footer">
         <a-divider />
         <div class="copyright">
-            蜀江水碧蜀山青，圣主朝朝暮暮情。
+
+            <img src="https://v1.jinrishici.com/all.svg?font-size=12" alt="">
         </div>
+
+
+
 
     </div>
 </template>
@@ -14,11 +18,14 @@ const data = reactive({
     name: '',
 })
 
+
+
 </script>
 <style scoped lang='scss'>
 .footer {
     padding: 15px;
-    height: 300px;
+    padding-bottom: 60px;
+
     margin-top: 65px;
 
     .copyright {

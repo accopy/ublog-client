@@ -64,14 +64,15 @@ import 'vditor/dist/index.css';
 
 import { useRoute } from 'vue-router'
 import { message } from 'ant-design-vue';
-
+import { userInfo } from '@/stores/user'
+const userStore = userInfo()
 //首先在setup中定义
 const route = useRoute()
 const data = reactive({
     id: '',
     article: {},
     categoryList: [],
-    authorName: localStorage.getItem('name')
+    authorName: ''
 
 })
 // 3. 在组件初始化时，就创建Vditor对象，并引用
@@ -85,6 +86,7 @@ const getTagsList = () => {
             data.article.create_time = res.data.create_time.slice(0, 10)
             data.article.update_time = res.data.update_time.slice(0, 10)
             data.article.category = res.data.category[0]
+            data.authorName = res.data.authorName
             renderMarkdown(data.article.content)
 
         }

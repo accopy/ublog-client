@@ -78,15 +78,23 @@ const toDetailPage = (val) => {
     display: flex;
     border-bottom: 1px dashed $text-meta;
     padding: 3px 0;
+    align-items: center;
 
     .left {
         margin-right: 14px;
         color: $text-p4;
         font-weight: 500;
+        text-wrap: nowrap;
     }
 
     .right {
         color: $text-p1;
+
+        word-break: break-all;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
 }
 
