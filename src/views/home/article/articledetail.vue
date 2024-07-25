@@ -13,12 +13,13 @@
                     <div class="breadcrumbbox">
                         <a-breadcrumb>
                             <a-breadcrumb-item><a href="/">主页</a></a-breadcrumb-item>
-                            <a-breadcrumb-item>{{ data.article.categoryName }}</a-breadcrumb-item>
+                            <a-breadcrumb-item>{{ dictLabel(data.categoryList, data.article.category)
+                                }}</a-breadcrumb-item>
 
                         </a-breadcrumb>
                     </div>
                     <div style="display: flex;">
-                        <div> Mr. A </div>
+                        <div> {{ data.authorName }} </div>
                         <div class="time1">
                             <span style="margin: 0 10px;">|</span>
                             <span>{{ data.article.create_time }}</span>
@@ -50,10 +51,11 @@
 
 <script setup>
 import { reactive, toRefs, onBeforeMount, onMounted, ref, watch } from 'vue'
-import { getArticleDetail } from "@/api/api-public"
+import { getArticleDetail, getCategoryList } from "@/api/api-public"
 //引入路由
 import { useRouter } from 'vue-router'
 const router = useRouter();
+import { dictLabel } from '@/api/utils'
 
 // 1.1 引入Vditor 构造函数
 import Vditor from "vditor"
@@ -67,7 +69,10 @@ import { message } from 'ant-design-vue';
 const route = useRoute()
 const data = reactive({
     id: '',
-    article: {}
+    article: {},
+    categoryList: [],
+    authorName: localStorage.getItem('name')
+
 })
 // 3. 在组件初始化时，就创建Vditor对象，并引用
 
@@ -79,15 +84,33 @@ const getTagsList = () => {
             data.article = res.data
             data.article.create_time = res.data.create_time.slice(0, 10)
             data.article.update_time = res.data.update_time.slice(0, 10)
-            data.article.categoryName = res.data.categoryName[0]
+            data.article.category = res.data.category[0]
             renderMarkdown(data.article.content)
 
         }
 
     })
 }
+
+//获取个人分类
+const getCategory = () => {
+    getCategoryList().then(res => {
+        if (res.code == 200) {
+            let arr = []
+            for (let i = 0; i < res.data.length; i++) {
+                let obj = {}
+                obj.value = res.data[i]._id
+                obj.label = res.data[i].name
+                arr.push(obj)
+            }
+            data.categoryList = arr
+        }
+
+    })
+}
 onMounted(() => {
     getTagsList()
+    getCategory()
 
 })
 
@@ -188,17 +211,23 @@ const renderMarkdown = (md) => {
 
 
         .bannertitle {
+            padding: 0px 40px;
             display: flex;
             justify-content: center;
             font-size: 28px;
             padding-bottom: 40px;
             z-index: 2;
-
+            text-align: center;
             //文字描边效果
             background-image: linear-gradient(#FFFFFF, #92FE9D, );
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+
+
+
+
+
             /*需要文字透明*/
         }
 

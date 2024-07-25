@@ -30,20 +30,21 @@
             </a-form-item>
 
             <a-form-item label="分类">
-                <a-select v-model:value="data.formState.category" style="width: 100%" label-in-value
-                    placeholder="Please select" :options="data.categoryList" @change="handleChange">
+                <a-select v-model:value="data.formState.category" style="width: 100%" placeholder="Please select"
+                    :options="data.categoryList" @change="handleChange">
 
                 </a-select>
 
 
             </a-form-item>
-
-
             <div id="vditor" ref="vditorRef">
             </div>
         </a-form>
 
-        <button @click="updatearticle">dd</button>
+
+        <div class="bt">
+            <a-button type="primary" @click="updatearticle">更新</a-button>
+        </div>
     </div>
 
 </template>
@@ -54,7 +55,7 @@ import Vditor from 'vditor'
 // 1.2 引入样式
 import 'vditor/dist/index.css';
 import { ref, onMounted, reactive, nextTick, onBeforeMount, defineEmits } from 'vue';
-import { updateArticle, getArticleDetail } from '@/api/api'
+import { updateArticle, getArticleDetail, upload } from '@/api/api'
 import { message } from 'ant-design-vue';
 const emit = defineEmits(["Refresh"])
 
@@ -104,7 +105,36 @@ onMounted(() => {
             position: "right"
         },
         after: () => {
-            vditor.value.setValue(data.formState.content)
+            getarticledetail()
+
+
+        },
+        upload: {
+            accept: 'image/jpg, image/jpeg, image/png',
+            max: 2 * 1024 * 1024,  // 控制大小
+            // linkToImgUrl: '/api/upload/fetch',
+            multiple: false,
+            filename(name) {
+                return name.replace(/[^(a-zA-Z0-9\u4e00-\u9fa5\.)]/g, '').
+                    replace(/[\?\\/:|<>\*\[\]\(\)\$%\{\}@~]/g, '').
+                    replace('/\\s/g', '')
+            },
+            async handler(files) {
+                const formData = new FormData();
+                // console.log('files[0]', files[0]);
+                formData.append('file', files[0]);
+                // console.log('formData', formData);
+                let res = await upload(formData)
+
+
+                if (res.code == 200) {
+                    vditor.value.insertValue(`![${name}](${res.data})`); // 文本编辑器中插入图片
+                    return '上传成功';
+
+                }
+                return '上传失败';
+            }
+
         },
 
     })
@@ -113,7 +143,7 @@ onBeforeMount(() => {
     //父组件传入数据
     data.id = props.articleId
     data.categoryList = props.categoryList
-    getarticledetail()
+    // getarticledetail()
 
 })
 
@@ -124,12 +154,13 @@ const getarticledetail = () => {
             let result = res.data
             data.formState.title = result.title
             data.tagsState.tagsName = result.tagsName
-
-            data.formState.category = { label: result.categoryName[0], value: result.category[0] }
-
+            data.formState.category = result.category
             data.formState.content = result.content
             data.formState.author = result.author
             data.formState._id = result._id
+            vditor.value.setValue(data.formState.content)
+            console.log('获取成功！');
+
         }
     })
 }
@@ -219,5 +250,11 @@ const handleInputConfirm = () => {
     margin-top: 20px;
     display: flex;
     justify-content: space-around;
+}
+
+.bt {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
 }
 </style>

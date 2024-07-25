@@ -9,7 +9,7 @@
 
 <script setup>
 import { reactive, toRefs, onBeforeMount, onMounted } from 'vue'
-import Navbar from '@/views/home/components/navbar.vue'
+import Navbar from '@/views/home/components/Navbar.vue'
 const data = reactive({
     name: '',
 })

@@ -30,8 +30,8 @@
             </a-form-item>
 
             <a-form-item label="分类">
-                <a-select v-model:value="data.formState.category" style="width: 100%" label-in-value
-                    placeholder="Please select" :options="data.categoryList" @change="handleChange">
+                <a-select v-model:value="data.formState.category" style="width: 100%" placeholder="Please select"
+                    :options="data.categoryList" @change="handleChange">
 
                 </a-select>
 
@@ -43,7 +43,10 @@
             </div>
         </a-form>
 
-        <button @click="addarticle">dd</button>
+        <div class="bt">
+            <a-button type="primary" @click="addarticle">新增</a-button>
+        </div>
+
     </div>
 
 </template>
@@ -54,7 +57,9 @@ import Vditor from 'vditor'
 // 1.2 引入样式
 import 'vditor/dist/index.css';
 import { ref, onMounted, reactive, nextTick, onBeforeMount, defineEmits } from 'vue';
-import { addArticle } from '@/api/api'
+import { addArticle, upload } from '@/api/api'
+import { baseUrl } from '@/api/request'
+
 import { message } from 'ant-design-vue';
 const emit = defineEmits(["Refresh"])
 
@@ -104,8 +109,38 @@ onMounted(() => {
         outline: {
             enable: false,
             position: "right"
-        }
+        },
+        upload: {
+            accept: 'image/jpg, image/jpeg, image/png',
+            max: 2 * 1024 * 1024,  // 控制大小
+            // linkToImgUrl: '/api/upload/fetch',
+            multiple: false,
+            filename(name) {
+                return name.replace(/[^(a-zA-Z0-9\u4e00-\u9fa5\.)]/g, '').
+                    replace(/[\?\\/:|<>\*\[\]\(\)\$%\{\}@~]/g, '').
+                    replace('/\\s/g', '')
+            },
+            async handler(files) {
+                const formData = new FormData();
+                // console.log('files[0]', files[0]);
+                formData.append('file', files[0]);
+                // console.log('formData', formData);
+                let res = await upload(formData)
+
+
+                if (res.code == 200) {
+                    vditor.value.insertValue(`![${name}](${res.data})`); // 文本编辑器中插入图片
+                    return '上传成功';
+
+                }
+                return '上传失败';
+            }
+
+        },
     })
+
+    console.log(' vditor.insertValue', vditor.value.insertValue);
+
 })
 
 
@@ -129,11 +164,25 @@ const addarticle = values => {
             message.success({ content: '提交成功!' })
 
             emit("Refresh")
+            resetform()
 
         }
 
     })
 };
+
+const resetform = () => {
+    data.formState = {
+        title: '',
+        content: '',
+        tagsName: [],
+        category: '',
+        //0草稿1发布    
+        state: 1,
+        author: '',
+        _id: ''
+    }
+}
 
 const tagColor = (val) => {
     let colorlist = ['pink', 'cyan', 'blue', '#f50', '#2db7f5', '#87d068', '#108ee9']
@@ -175,11 +224,18 @@ const handleInputConfirm = () => {
 <style scoped lang='scss'>
 .addview {
     box-sizing: border-box;
+
 }
 
 .handleline {
     margin-top: 20px;
     display: flex;
     justify-content: space-around;
+}
+
+.bt {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
 }
 </style>

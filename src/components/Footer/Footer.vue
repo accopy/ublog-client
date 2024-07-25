@@ -19,7 +19,6 @@ const data = reactive({
 .footer {
     padding: 15px;
     height: 300px;
-
     margin-top: 65px;
 
     .copyright {

@@ -1,11 +1,24 @@
 <template>
-    <div>
+    <div class="container">
+
         <div class="top">
-            <a-button type="primary" @click="showDrawer(null, 'add')">新增文章</a-button>
-            <a-input-search v-model:value="data.searchKey" placeholder="请输入搜索关键字" enter-button @search="onSearch" />
+            <a-button type="primary" @click="showDrawer(null, '新增')">新增</a-button>
+            <a-form-item label="关键字">
+                <a-input v-model:value="data.searchKey" placeholder="请输入搜索关键字" />
+            </a-form-item>
+            <a-form-item label="分类">
+                <a-select v-model:value="data.category" style="width: 100%" placeholder="Please select"
+                    :options="data.categoryList">
+                </a-select>
+            </a-form-item>
+            <a-button type="dashed" @click="reset()">重置</a-button>
+            <a-button type="primary" @click="getList()" style="margin-left: 10px;">搜索</a-button>
+
+
         </div>
 
-        <a-table :dataSource="data.dataSource" :columns="data.columns">
+
+        <a-table :dataSource="data.dataSource" :columns="data.columns" @change="handleChange" :pagination="pagination">
             <template #headerCell="{ column }">
                 <template v-if="column.key === 'title'">
                     <span>
@@ -16,15 +29,15 @@
             </template>
 
             <template #bodyCell="{ column, record }">
-                <template v-if="column.key === 'categoryName'">
+                <template v-if="column.key === 'category'">
                     <a>
-                        {{ record.categoryName[0] }}
+                        {{ dictLabel(data.categoryList, record.category[0]) }}
                     </a>
                 </template>
 
                 <template v-else-if="column.key === 'desc'">
 
-                    {{ record.desc }}
+                    {{ record.desc.substr(0, 100) }}
 
                 </template>
 
@@ -32,16 +45,16 @@
                     <span>
                         <a-tag v-for="tag in record.tagsName" :key="tag"
                             :color="tag === 'loser' ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'">
-                            {{ tag.toUpperCase() }}
+                            {{ tag }}
                         </a-tag>
                     </span>
                 </template>
                 <template v-else-if="column.key === 'action'">
                     <span>
                         <a-button type="dashed" size="small" style="margin-right: 10px;"
-                            @click="showDrawer(record._id, 'view')">查看</a-button>
+                            @click="showDrawer(record._id, '详情')">查看</a-button>
                         <a-button type="primary" size="small" style="margin-right: 10px;"
-                            @click="showDrawer(record._id, 'edit')">编辑</a-button>
+                            @click="showDrawer(record._id, '编辑')">编辑</a-button>
 
                         <a-popconfirm title="Are you sure ?" ok-text="Yes" cancel-text="No"
                             @confirm="deleteConfirm(record._id)" @cancel="deleteCancel">
@@ -51,30 +64,35 @@
 
                     </span>
                 </template>
+
             </template>
+
         </a-table>
+
 
     </div>
 
-    <a-drawer :width="windowWidth" :title="data.drawerMode" placement="right" :open="data.open" @close="onCloseDrawer">
+    <a-drawer :width="windowWidth" :title="data.drawerMode" placement="right" :open="data.open"
+        @close="onCloseDrawerAndRefresh">
         <template #extra v-if="data.drawerMode == 'edit'">
-            <a-button style="margin-right: 8px" @click="onCloseDrawer">取消</a-button>
-            <a-button type="primary" @click="onCloseDrawer">提交</a-button>
+            <a-button style="margin-right: 8px" @click="onCloseDrawerAndRefresh">取消</a-button>
+            <a-button type="primary" @click="onCloseDrawerAndRefresh">提交</a-button>
         </template>
-        <ArticleDetail :articleId="data.choosedId" v-if="data.drawerMode == 'view'" />
-        <EditArticle :articleId="data.choosedId" :categoryList="data.categoryList" v-else-if="data.drawerMode == 'edit'"
+        <ArticleDetail :articleId="data.choosedId" v-if="data.drawerMode == '详情'" @Refresh="onCloseDrawerAndRefresh" />
+        <EditArticle :articleId="data.choosedId" :categoryList="data.categoryList" v-else-if="data.drawerMode == '编辑'"
             @Refresh="onCloseDrawerAndRefresh" />
-        <AddArticle :categoryList="data.categoryList" v-else-if="data.drawerMode == 'add'"
+        <AddArticle :categoryList="data.categoryList" v-else-if="data.drawerMode == '新增'"
             @Refresh="onCloseDrawerAndRefresh" />
     </a-drawer>
 
 </template>
 
 <script setup>
-import { reactive, onBeforeMount, defineProps, toRefs, watch, ref } from 'vue'
-import { getArticleList, delArticle, getCategoryList, searchArticle } from '@/api/api'
+import { reactive, onBeforeMount, computed, toRefs, watch, ref } from 'vue'
+import { searchArticle, delArticle, getCategoryList } from '@/api/api'
 import { message } from 'ant-design-vue';
 import { SmileOutlined } from '@ant-design/icons-vue';
+import { dictLabel } from '@/api/utils'
 
 import ArticleDetail from './components/ArticleDetail.vue'
 import EditArticle from './components/EditArticle.vue'
@@ -83,7 +101,6 @@ import AddArticle from './components/AddArticle.vue'
 
 // 屏幕宽度
 const windowWidth = ref(0)
-
 // 获取屏幕尺寸
 const getWindowResize = function () {
     windowWidth.value = window.innerWidth
@@ -101,6 +118,7 @@ onBeforeMount(() => {
 
 const data = reactive({
     searchKey: '',      //搜索值
+    category: '',       //分类
     choosedId: '',     //选择文章的id
     open: false,       //抽屉状态
     drawerMode: '',    //抽屉模式 view查看，edit编辑，add添加
@@ -122,8 +140,11 @@ const data = reactive({
         },
         {
             title: '分类',
-            dataIndex: 'categoryName',
-            key: 'categoryName',
+            dataIndex: 'category',
+            key: 'category',
+            customRender: (e) => {
+
+            },
             customCell: column => {
                 return {
                     style: {
@@ -165,22 +186,39 @@ const data = reactive({
     pageData: {
         pageSize: 10,
         pageNum: 1,
-        queryinfo: {
-            querytype: 'recent',
-            key: ''
-        }
     },
     total: 0,
 });
 
 
-//分页变化
-const changePageNum = (val) => {
-    data.pageData.pageNum = val
-    sessionStorage.setItem('pageNum', val)
-    console.log('val', val);
-    getList(data.pageData)
+//搜索文章
+const getList = () => {
+    let obj = {
+        pageParam: data.pageData,
+        key: data.searchKey,
+        category: data.category,
+        tags: ''
+    }
+    searchArticle(obj).then(res => {
+        if (res.code == 200) {
+            data.total = res.data.count
+            data.dataSource = res.data.list
+        }
 
+
+    })
+
+};
+const pagination = computed(() => ({
+    total: data.total,
+    current: data.pageData.pageNum,
+    pageSize: data.pageData.pageSize,
+}));
+
+//分页变化
+const handleChange = (val) => {
+    data.pageData.pageNum = val.current
+    getList()
 }
 
 //打开抽屉
@@ -191,42 +229,13 @@ const showDrawer = (val, mode) => {
 
 };
 
-//关闭抽屉
-const onCloseDrawer = () => {
-    data.drawerMode = ''
-    data.open = false;
-};
 
 //关闭抽屉并刷新
 const onCloseDrawerAndRefresh = () => {
     data.open = false;
-    getList(data.pageData)
-};
+    data.drawerMode = ''
+    getList()
 
-
-//搜索文章
-const search = () => {
-    searchArticle({ key: data.searchKey }).then(res => {
-        if (res.code == 200) {
-            data.list = res.data
-
-        }
-
-    })
-};
-
-
-
-//定义获取个人文章
-const getList = (val) => {
-
-    getArticleList(val).then(res => {
-        if (res.data != 400) {
-            data.dataSource = res.data.list
-            data.total = res.data.count
-
-        }
-    })
 };
 
 //获取个人分类
@@ -244,6 +253,19 @@ const getCategory = () => {
         }
 
     })
+}
+
+
+
+const reset = () => {
+    data.searchKey = ''
+    data.category = ''
+    data.pageData = {
+        pageSize: 10,
+        pageNum: 1,
+    }
+    getList()
+
 }
 
 //删除文章
@@ -276,15 +298,27 @@ const deleteCancel = e => {
 
 </script>
 <style scoped lang='scss'>
+.container {
+    // :deep(.ant-table-wrapper) {
+    //     //括号中为需要修改的类名
+    //     height: 500px;
+    // }
+}
+
 .top {
     padding: 20px 0px;
     display: flex;
 
-    :deep(.ant-input-wrapper) {
+
+
+
+
+    :deep(.ant-form-item) {
         //括号中为需要修改的类名
         width: 300px;
         margin: 0 10px
     }
+
 
 
 

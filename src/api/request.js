@@ -28,7 +28,7 @@ service.interceptors.request.use((config) => {//请求的数据
 })
 //响应拦截：后端返回来的结果
 service.interceptors.response.use((res) => {
-    console.log('初始', res.data);
+    // console.log('初始', res.data);
 
     const code = res.data.code//code是后端的状态码
     if (code !== 200) {

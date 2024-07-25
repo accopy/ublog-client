@@ -8,7 +8,7 @@ import RecentList from '@/views/home/article/recent.vue'
 import Category from '@/views/home/article/category.vue'
 import Tags from '@/views/home/article/tags.vue'
 import Archives from '@/views/home/article/archives.vue'
-import Articledetail from '@/views/home/components/articleDetail/articledetail.vue'
+import Articledetail from '@/views/home/article/articledetail.vue'
 
 
 import Background from '@/views/background/index.vue'
@@ -62,7 +62,18 @@ const routes = [
             },
 
 
-        ]
+        ],
+        beforeEnter: (to, form, next) => {
+            console.log('首位');
+
+            if (localStorage.getItem('token')) {
+                next();
+
+            } else {
+                router.push('/login')
+
+            }
+        }
     },
 
 ]
@@ -70,5 +81,6 @@ const router = createRouter({
     history: createWebHashHistory(),
     routes,
 })
+
 
 export default router;

@@ -12,10 +12,10 @@
                     <div class="header" v-if="data.isMobile">
                         <div class="logo_wrap">
                             <div class="avatar">
-                                <img :src="data.imgurl" alt="">
+                                <img :src="userStore.avatar" alt="">
                             </div>
                             <div>
-                                <div class="username">{{ data.name }}</div>
+                                <div class="username">{{ userStore.name }}</div>
                                 <div class="ind">风暴前夕</div>
                             </div>
                         </div>
@@ -24,6 +24,7 @@
                     <router-view></router-view>
                     <Footer />
                 </div>
+
             </a-col>
         </a-row>
 
@@ -35,20 +36,25 @@
 import { ref, defineComponent, onMounted, onUnmounted, reactive, onBeforeMount } from 'vue';
 import UserCard from '../../components/UserCard/UserCard.vue';
 import Footer from '../../components/Footer/Footer.vue';
-
+import { getmyinfo } from '@/api/api-public'
 import { useResizeObserver } from "@vueuse/core";
-import { getmyinfo } from '@/api/api'
+
+import { userInfo } from '@/stores/user'
+const userStore = userInfo()
 
 const divDom = ref()
 
 const data = reactive({
     isMobile: null,
-    name: '',
-    imgurl: ''
+
 });
 
 onBeforeMount(() => {
-    getMyinfo()
+    getmyinfo().then(res => {
+        userStore.name = res.data.name
+        userStore.avatar = res.data.avatar
+
+    })
 })
 
 useResizeObserver(divDom, (entries) => {
@@ -65,20 +71,11 @@ useResizeObserver(divDom, (entries) => {
 
 })
 
-const getMyinfo = () => {
 
-
-    getmyinfo().then(res => {
-        localStorage.setItem('name', res.data.name)
-        localStorage.setItem('avatar', res.data.avatar)
-        data.name = localStorage.getItem('name')
-        data.imgurl = localStorage.getItem('avatar')
-    })
-}
 
 
 </script>
-<style scoped>
+<style scoped lang="scss">
 .homecontainer {
     background-color: #F9FAFB;
 }
@@ -129,8 +126,5 @@ const getMyinfo = () => {
 .main {
     width: 100%;
     padding: 0 15px;
-
-
-
 }
 </style>

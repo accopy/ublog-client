@@ -41,11 +41,7 @@ const getTagsList = () => {
     getArticleDetail(props.articleId).then(res => {
         if (res.code == 200) {
             data.article = res.data
-            data.article.create_time = res.data.create_time.slice(0, 10)
-            data.article.update_time = res.data.update_time.slice(0, 10)
-            data.article.categoryName = res.data.categoryName[0]
             renderMarkdown(data.article.content)
-
         }
 
     })

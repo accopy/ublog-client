@@ -11,6 +11,9 @@
 
 
             <template #bodyCell="{ column, record }">
+
+
+
                 <template v-if="column.key === 'name'">
 
                     {{ record.name }}
@@ -24,7 +27,8 @@
                 </template>
                 <template v-else-if="column.key === 'action'">
                     <span>
-
+                        <!-- <a-button type="primary" size="small" style="margin-right: 10px;"
+                            @click="showDrawer(record._id)">编辑</a-button> -->
                         <a-popconfirm title="Are you sure ?" ok-text="Yes" cancel-text="No"
                             @confirm="deleteConfirm(record)" @cancel="deleteCancel">
                             <a-button type="dashed" size="small" danger>删除</a-button>
@@ -48,13 +52,10 @@ import { getCategoryNum, delCategory, addCategory } from '@/api/api'
 import { message } from 'ant-design-vue';
 
 onBeforeMount(() => {
-
-
-
     getList(data.pageData)
-
-
 })
+
+
 
 const data = reactive({
     input: '',  //添加分类的名称
@@ -73,6 +74,13 @@ const data = reactive({
         {
             title: '操作',
             key: 'action',
+            customCell: column => {
+                return {
+                    style: {
+                        'width': "250px",
+                    }
+                };
+            }
         },
     ],
 });
@@ -88,6 +96,7 @@ const getList = () => {
         }
     })
 };
+
 
 //添加分类
 

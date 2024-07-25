@@ -49,3 +49,29 @@ export const searchArticle = (data) => {
         data
     })
 }
+
+//获取我的信息
+export const getmyinfo = () => {
+    return request({
+        url: `/api/myinfo`,
+        method: 'get',
+    })
+}
+
+//根据分类id查询分类名称
+export const getCategoryName = async (val) => {
+    return request({
+        url: `/api/getCategoryName?id=${val}`,
+        method: 'get',
+    })
+}
+
+//获取分类
+export const getCategoryList = async (val) => {
+    return request({
+        url: `/api/getCategoryList`,
+        method: 'get',
+    })
+}
+
+

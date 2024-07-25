@@ -32,9 +32,15 @@ const props = defineProps({
 watch(
     () => props.searchKey,
     (newVal, oldVal) => {
-        console.log('newVal', newVal)
+        // console.log('newVal', newVal.substring(0, 5))
+        //跳转后台
+        if (newVal.substring(0, 5) == '#9527') {
+            router.push('/background')
+        }
+        else {
+            search()
+        }
 
-        search()
 
 
 

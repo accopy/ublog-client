@@ -27,7 +27,7 @@
 <script setup>
 import { reactive, onBeforeMount } from 'vue'
 import { getCategoryNum } from '@/api/api-public'
-import ArticleList from '../components/ArticleList/index.vue';
+import ArticleList from '../components/ArticleList.vue';
 import { useRouter } from 'vue-router'
 
 

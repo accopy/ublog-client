@@ -6,9 +6,10 @@
 </template>
 
 <script setup>
-import { reactive, toRefs, onBeforeMount, onMounted } from 'vue'
+import { reactive, onBeforeMount, watch } from 'vue'
 import { useRouter } from 'vue-router'
 const router = useRouter();
+
 const data = reactive({
     activeId: 1,
     list: [
@@ -27,10 +28,22 @@ const data = reactive({
     ],
 })
 
+watch(() =>
+    router.currentRoute.value.path,
+    (toPath) => {
+        //要执行的方法
+
+        for (let i = 0; i < data.list.length; i++) {
+            if (toPath == data.list[i].url) {
+                data.activeId = data.list[i].id
+            }
+        }
+
+
+    }, { immediate: true, deep: true })
+
 const JumpOtherPage = (val) => {
-
     data.activeId = val.id
-
     router.push({
         path: val.url,
 

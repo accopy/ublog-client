@@ -4,15 +4,10 @@
   </div>
 </template>
 
-<script>
-// import HelloWorld from './components/HelloWorld.vue'
+<script setup>
 
-export default {
-  name: 'App',
-  // components: {
-  //   HelloWorld
-  // }
-}
+
+
 </script>
 
 <style lang="scss">

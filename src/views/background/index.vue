@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <a-layout style="height: 100%;">
-            <a-layout-header :style="headerStyle">Header</a-layout-header>
+            <a-layout-header :style="headerStyle">博客后台</a-layout-header>
             <a-layout>
                 <a-layout-sider :style="siderStyle">
 

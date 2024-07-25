@@ -5,7 +5,7 @@
     </div>
 </template>
 <script setup>
-import { reactive, watch, h } from 'vue';
+import { reactive, watch, h, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router'
 const router = useRouter();
 import {
@@ -62,16 +62,48 @@ const items = reactive([
         ],
     },
 ]);
-// watch(
-//     () => state.openKeys,
-//     (_val, oldVal) => {
-//         state.preOpenKeys = oldVal;
-//     },
-// );
+watch(
+    () => state.openKeys,
+    (_val, oldVal) => {
+        console.log('_val', _val);
+
+    },
+);
+
+watch(() =>
+    router.currentRoute.value.path,
+    (toPath) => {
+        //要执行的方法
+        let str = toPath.slice(12)
+
+        //获取openkey selectedKeys
+        for (let i = 0; i < items.length; i++) {
+            for (let j = 0; j < items[i].children.length; j++) {
+
+                if (str == items[i].children[j].key) {
+                    if (state.selectedKeys !== items[i].children[j].key) {
+                        state.selectedKeys = []
+                        state.selectedKeys.push(items[i].children[j].key)
+                    }
+                    if (state.openKeys !== items[i].key) {
+                        state.openKeys = []
+
+                        state.openKeys.push(items[i].key)
+                    }
+
+
+                }
+            }
+        }
+
+
+
+
+
+    }, { immediate: true, deep: true })
 
 
 const changeMenu = (e) => {
-    console.log('e', e);
     router.push({
         path: `/background/${e.key}`,
 

@@ -4,10 +4,10 @@
         <div class="header">
             <div class="logo_wrap">
                 <div class="avatar">
-                    <img :src="data.imageUrl" alt="">
+                    <img :src="userStore.avatar" alt="">
                 </div>
                 <div>
-                    <div class="username">{{ data.name }}</div>
+                    <div class="username">{{ userStore.name }}</div>
                     <div class="ind">风暴前夕</div>
                 </div>
             </div>
@@ -52,11 +52,13 @@
 </template>
 
 <script setup>
-import { reactive, ref, onBeforeMount, } from 'vue'
+import { reactive, ref, onBeforeMount, onMounted, nextTick } from 'vue'
 import { getArticleListSe } from '@/api/api-public'
 import SearchResult from './components/SearchResult.vue'
 
+import { userInfo } from '@/stores/user'
 
+const userStore = userInfo()
 //引入路由
 import { useRouter } from 'vue-router'
 const router = useRouter();
@@ -73,12 +75,7 @@ const data = reactive({
         { id: 4, img: require('./icon/写作.svg'), url: '' }
     ],
     recentlist: [],
-    imageUrl: '',
-    name: ''
 })
-
-
-
 
 const JumpOtherPage = (val) => {
     if (val.url) {
@@ -107,9 +104,13 @@ const getarticleListse = () => {
     ])
 }
 onBeforeMount(() => {
-    data.name = localStorage.getItem('name')
-    data.imageUrl = localStorage.getItem('avatar')
     getarticleListse()
+
+})
+onMounted(() => {
+    console.log('挂载完成');
+    console.log('userStore', userStore);
+
 
 
 })

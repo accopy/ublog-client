@@ -41,22 +41,10 @@ const router = useRouter();
 import { login } from '@/api/api'
 import { message } from 'ant-design-vue';
 //引入提示
-import { notification } from 'ant-design-vue';
-const [api, contextHolder] = notification.useNotification();
-const open = placement => openNotification(placement);
-import { SmileOutlined } from '@ant-design/icons-vue';
-const openNotification = placement => {
-    api.info({
-        message: `提示`,
-        description:
-            'hallo~~',
-        placement,
-        icon: () =>
-            h(SmileOutlined, {
-                style: 'color: #108ee9',
-            }),
-    });
-};
+
+
+
+
 
 const formState = reactive({
     username: 'admin',
@@ -81,7 +69,7 @@ const onFinish = values => {
             let token = res.data
             localStorage.setItem("token", 'Bearer ' + token)
             message.success('登录成功！');
-            router.replace({
+            router.push({
                 path: 'background',
             })
         } else if (res.code == 400) {

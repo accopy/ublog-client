@@ -4,16 +4,16 @@
             <div class="contentbox">
                 <div class="card" v-for="item in data.list" :key="item.id" @click="toDetailPage(item._id)">
                     <div class="titel"> {{ item.title }}</div>
-                    <div class="ind"> {{ item.content }}</div>
+                    <div class="ind"> {{ item.desc }}</div>
                     <div class="foot">
                         <div class="createdate">
                             <img src="@/assets/img/icon/日历.svg" alt="" width="15">
                             <div style="margin-left: 8px;">{{ item.create_time.substring(0, 10) }}</div>
                         </div>
                         <div class="category">
-                            <div v-for="(i, index) in item.categoryName" :key="index" class="categorybox">
+                            <div v-for="(i, index) in item.category" :key="index" class="categorybox">
                                 <i class="iconfont icon-wendang"></i>
-                                {{ i }}
+                                {{ dictLabel(data.categoryList, i) }}
                             </div>
                         </div>
                     </div>
@@ -36,9 +36,10 @@
 
 <script setup>
 import { reactive, onBeforeMount, defineProps, toRefs, watch } from 'vue'
-import { getArticleList } from '@/api/api-public'
+import { getArticleList, getCategoryList } from '@/api/api-public'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue';
+import { dictLabel } from '@/api/utils'
 const router = useRouter();
 const props = defineProps({
     //子组件接收父组件传递过来的值
@@ -50,8 +51,7 @@ const props = defineProps({
 const emit = defineEmits(["Refresh"])
 
 const data = reactive({
-    list: [
-    ],
+    list: [],
     pageData: {
         pageSize: 5,
         pageNum: 1,
@@ -61,7 +61,29 @@ const data = reactive({
         }
     },
     total: 0,
+    categoryList: []
 });
+
+onBeforeMount(() => {
+    getCategory()
+})
+
+//获取个人分类
+const getCategory = () => {
+    getCategoryList().then(res => {
+        if (res.code == 200) {
+            let arr = []
+            for (let i = 0; i < res.data.length; i++) {
+                let obj = {}
+                obj.value = res.data[i]._id
+                obj.label = res.data[i].name
+                arr.push(obj)
+            }
+            data.categoryList = arr
+        }
+
+    })
+}
 
 //定义获取个人文章
 const getList = (val) => {

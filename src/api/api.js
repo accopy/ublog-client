@@ -55,14 +55,7 @@ export const searchArticle = (data) => {
     })
 }
 
-//获取文章
-export const getArticleList = (data) => {
-    return request({
-        url: `/getArticleList`,
-        method: 'post',
-        data
-    })
-}
+
 
 //获取文章详情
 export const getArticleDetail = (id) => {
@@ -146,10 +139,15 @@ export const updatemyinfo = (data) => {
     })
 }
 
-export const upload = () => {
+//上传图片
+export const upload = (data) => {
     return request({
-        url: `/uploadImage`,
+        url: `/api/uploadImage`,
         method: 'post',
+        data,
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
     })
 }
 
