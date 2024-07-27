@@ -1,51 +1,42 @@
 <template>
-    <div class="homecontainer ">
-        <a-row>
-            <a-col :xs="0" :sm="0" :md="10" :lg="10" :xl="5" ref="divDom">
-                <div class="userCard">
-                    <UserCard></UserCard>
-                </div>
-            </a-col>
-            <a-col :xs="24" :sm="24" :md="14" :lg="14" :xl="19">
-
-                <div class="main ">
-                    <div class="header" v-if="data.isMobile">
-                        <div class="logo_wrap">
-                            <div class="avatar">
-                                <img :src="userStore.avatar" alt="" v-if="userStore.avatar">
-
-                            </div>
-                            <div>
-                                <div class="username">{{ userStore.name }}</div>
-                                <div class="ind">风暴前夕</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="homecontent">
-                        <router-view></router-view>
-                    </div>
-
-                    <Footer />
+    <div style="  background-color: #F9FAFB;">
+        <div class="homecontainer ">
+            <div class="userCard " ref="divDom">
+                <UserCard></UserCard>
+            </div>
+            <div class="main">
+                <UserCardMobile v-if="data.isMobile" />
+                <div class="homecontent">
+                    <router-view></router-view>
                 </div>
 
-            </a-col>
-        </a-row>
+                <Footer />
+            </div>
 
+
+
+
+        </div>
     </div>
+
 
 
 </template>
 <script setup>
 import { ref, defineComponent, onMounted, onUnmounted, reactive, onBeforeMount } from 'vue';
 import UserCard from '../../components/UserCard/UserCard.vue';
+import UserCardMobile from '../../components/UserCard/UserCardMobile.vue';
+
 import Footer from '../../components/Footer/Footer.vue';
 import { getmyinfo } from '@/api/api-public'
 import { useResizeObserver } from "@vueuse/core";
+
 
 import { userInfo } from '@/stores/user'
 const userStore = userInfo()
 
 const divDom = ref()
+
 
 const data = reactive({
     isMobile: null,
@@ -63,8 +54,8 @@ onBeforeMount(() => {
 useResizeObserver(divDom, (entries) => {
     const entry = entries[0]
     const { width, height } = entry.contentRect
-    // console.log(`width: ${width}, height: ${height}`)
-    // console.log(`${width}px`)
+    console.log(`width: ${width}, height: ${height}`)
+    console.log(`${width}px`)
     if (width == 0) {
         data.isMobile = true
 
@@ -79,59 +70,47 @@ useResizeObserver(divDom, (entries) => {
 
 </script>
 <style scoped lang="scss">
-.homecontainer {
-    background-color: #F9FAFB;
+@media screen and (max-width: 800px) {
+
+    /*当屏幕尺寸小于600px时，应用下面的CSS样式*/
+    .userCard {
+        width: 0px !important;
+        margin: 0px !important;
+    }
 }
 
-.homecontent {
-    min-height: calc(100vh - 204px);
+//最外层
+.homecontainer {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #F9FAFB;
+
 }
 
 .userCard {
-    width: 300px;
 
+    width: 264px;
+    height: 100vh;
+
+    overflow: hidden;
     position: sticky;
     top: 0;
+    margin-right: 10px;
 
 }
 
-.header {
-    .logo_wrap {
-        display: flex;
-        padding: 30px 20px 10px 20px
-    }
 
-    .avatar {
-        margin-right: 15px;
-        border: 3px solid red;
-        border-radius: 50%;
 
-        img {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            cursor: pointer;
+.homecontent {
+    min-height: calc(100vh - 204px);
 
-        }
-    }
-
-    .username {
-        font-family: klxq;
-        font-size: 1.5rem;
-        font-weight: 900;
-        cursor: pointer;
-
-    }
-
-    .ind {
-        font-size: .8125rem;
-        cursor: pointer;
-        color: $text-p1;
-    }
 }
 
 .main {
-    width: 100%;
-    padding: 0 15px;
+    flex: 1;
+    padding: 0 10px;
+
 }
 </style>

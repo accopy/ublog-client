@@ -72,7 +72,7 @@ const backtohome = (val) => {
 <style scoped lang='scss'>
 .tags {
     width: 100%;
-    height: calc(100vh - 350px);
+
 }
 
 .contentbox {

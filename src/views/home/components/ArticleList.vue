@@ -146,6 +146,13 @@ const changePageNum = (val) => {
     sessionStorage.setItem('pageNum', val)
     console.log('val', val);
     getList(data.pageData)
+    window.scrollTo({
+        // top: document.documentElement.offsetHeight, //回到底部
+        top: 0, //回到顶部
+        left: 0,
+        behavior: "auto", //smooth 平滑；auto:瞬间
+    });
+
 
 }
 
@@ -162,9 +169,10 @@ const toAddPage = (val) => {
 </script>
 <style scoped lang='scss'>
 .articlelistbox {
-    width: 100%;
+   
     height: 100%;
     min-height: calc(100vh - 250px);
+
 }
 
 .card:hover {

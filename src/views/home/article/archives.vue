@@ -1,5 +1,5 @@
 <template>
-    <div class="achives pl-15">
+    <div class="achives">
         <div v-for="item in data.list" :key="item.year" style="margin-top: 15px;">
             <div class="head">
                 <span class=""> {{ item.year }}</span>
@@ -47,6 +47,8 @@ const toDetailPage = (val) => {
 .achives {
     width: 100%;
     height: calc(100vh - 350px);
+    padding: 0 10px;
+
 }
 
 .head {

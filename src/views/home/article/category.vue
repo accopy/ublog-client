@@ -1,5 +1,5 @@
 <template>
-    <div class="category">
+    <div class="category ">
         <div class="contentbox" v-if="data.pageState.current == 0">
             <div class="categoryli" v-for="item in data.categoryList " :key="item._id" @click="handClickLi(item)">
 

@@ -3,12 +3,12 @@
 
         <div class="header">
             <div class="logo_wrap">
-                <div class="avatar">
+                <div class="avatar" @click="router.push('/')">
                     <img :src="userStore.avatar" alt="">
                 </div>
                 <div>
                     <div class="username">{{ userStore.name }}</div>
-                    <div class="ind">风暴前夕</div>
+                    <div class="ind">{{ userStore.saying[0] }}</div>
                 </div>
             </div>
         </div>
@@ -70,9 +70,9 @@ const data = reactive({
     navlist: [
         //静态加载加require
         { id: 1, img: require('./icon/文档.svg'), url: '/' },
-        { id: 2, img: require('./icon/社交.svg'), url: '' },
-        { id: 3, img: require('./icon/爱心.svg'), url: '' },
-        { id: 4, img: require('./icon/写作.svg'), url: '' }
+        { id: 2, img: '', url: '' },
+        { id: 3, img: '', url: '' },
+        { id: 4, img: '', url: '' }
     ],
     recentlist: [],
 })
@@ -125,17 +125,19 @@ onMounted(() => {
 <style scoped lang='scss'>
 .container {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     font-family: LXGWWenKaiMonoScreen;
     background: linear-gradient(to bottom, #92FE9D, #00C9FF);
     user-select: none;
-    overflow: hidden;
+
+
+    border-radius: 15px;
 }
 
 .header {
     .logo_wrap {
         display: flex;
-        padding: 40px 20px 0 20px
+        padding: 40px 10px 0 10px
     }
 
     .avatar {
@@ -168,7 +170,7 @@ onMounted(() => {
 }
 
 .nav-area {
-    padding: 30px 20px 0 20px;
+    padding: 30px 10px 0 10px;
 
     .top {
         padding: 3px 0;
@@ -220,7 +222,7 @@ onMounted(() => {
 }
 
 .welcome {
-    padding: 40px 20px 0 20px;
+    padding: 40px 10px 0 10px;
 
 
     .title {
@@ -242,7 +244,7 @@ onMounted(() => {
 }
 
 .widget-wrapper {
-    padding: 40px 20px 0 20px;
+    padding: 40px 10px 0 10px;
 
     .title {
         padding-left: 10px;

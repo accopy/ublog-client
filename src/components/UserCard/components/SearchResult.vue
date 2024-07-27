@@ -2,7 +2,9 @@
     <div class="searchresultbox">
 
         <div class="searchresultli" v-for="item in data.list" :key="item._id" @click="toDetailPage(item._id)">
-            <div class="biaoti">{{ item.title }}</div>
+            <div class="biaoti">
+                <span v-html="eachColor(item.title, props.searchKey)"></span>
+            </div>
             <div class="neirong">
                 <span v-html="eachColor(item.content, props.searchKey)"></span>
             </div>
@@ -14,11 +16,12 @@
 </template>
 
 <script setup>
-import { reactive, toRefs, onBeforeMount, onMounted, defineProps, watch } from 'vue'
+import { reactive, toRefs, onBeforeMount, onMounted, defineProps, watch, defineEmits} from 'vue'
 import { useRouter } from 'vue-router'
 import { searchArticle } from '@/api/api-public'
 import { useDebounceFn } from '@vueuse/core'
 const router = useRouter();
+const emit = defineEmits(["Refresh"])
 const data = reactive({
     list: [],
     isNone: true
@@ -40,10 +43,6 @@ watch(
         else {
             search()
         }
-
-
-
-
 
     },
 
@@ -81,6 +80,7 @@ const toDetailPage = (val) => {
         query: { articleId: val }
 
     })
+    emit("Refresh")
 }
 
 //搜索结果关键字改变颜色
@@ -105,6 +105,9 @@ function eachColor(content, searchVal) {
         let nt = '<span style="color:red">' + searchVal + '</span>';
         return extractedText.replace(searchVal, nt) + '&nbsp;';
 
+    }
+    else{
+        return   originalText.substr(0,40)
     }
 
 }

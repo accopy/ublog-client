@@ -1,6 +1,8 @@
 <template>
-    <div class="recent ">
+    <div class="recent">
         <ArticleList :queryObj="data.queryinfo"></ArticleList>
+    </div>
+    <div class="theRight">    
     </div>
 </template>
 
@@ -99,4 +101,6 @@ const data = reactive({
     justify-content: center;
     // pointer-events: none !important;
 }
+
+
 </style>

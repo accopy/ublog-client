@@ -1,5 +1,5 @@
 <template>
-    <div class="nav pl-15">
+    <div class="nav">
         <div v-for="item in data.list" :key="item.id" :class="[item.id == data.activeId ? 'active' : '']"
             @click="JumpOtherPage(item)">{{ item.name }}</div>
     </div>

@@ -132,8 +132,7 @@ const data = reactive({
             customCell: column => {
                 return {
                     style: {
-                        'min-width': "300px",
-
+                        'width': "220px",
                     }
                 };
             }
@@ -148,7 +147,7 @@ const data = reactive({
             customCell: column => {
                 return {
                     style: {
-                        'min-width': "120px",
+                        'min-width': "130px",
                     }
                 };
             }
@@ -157,6 +156,13 @@ const data = reactive({
             title: '内容简介',
             dataIndex: 'desc',
             key: 'desc',
+            customCell: column => {
+                return {
+                    style: {
+
+                    }
+                };
+            }
         },
         {
             title: '标签',
@@ -165,7 +171,7 @@ const data = reactive({
             customCell: column => {
                 return {
                     style: {
-                        'min-width': "250px",
+                        'width': "180px",
                     }
                 };
             }

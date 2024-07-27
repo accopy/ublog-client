@@ -5,13 +5,12 @@ export const userInfo = defineStore('user', {
     // 其他配置...
     state: () => ({
         name: '',
-        avatar: ''
+        avatar: '',
+        saying: ['清风朗月', '辄思玄度']
     }),
     //类似state的计算属性
     getters: {
-        fullname: (state) => {
-            state.name + "full"
-        }
+
     },
     actions: {
 

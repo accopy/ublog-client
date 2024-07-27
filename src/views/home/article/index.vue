@@ -23,8 +23,5 @@ const data = reactive({
     height: 100%
 }
 
-.pl15 {
-    padding: 0 15px;
 
-}
 </style>

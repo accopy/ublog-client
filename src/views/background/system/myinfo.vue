@@ -17,6 +17,8 @@
                         <div class="ant-upload-text">Upload</div>
                     </div>
                 </a-upload>
+
+
             </a-form-item>
 
 
@@ -35,12 +37,30 @@ import { getmyinfo, updatemyinfo, upload } from '@/api/api'
 import { baseUrl } from '@/api/request'
 import { message } from 'ant-design-vue';
 import axios from "axios";
+
+
 const headers = reactive({
     'Authorization': localStorage.getItem("token"),
     'Content-Type': 'multipart/form-data',
 
 
 })
+
+
+function ImageToBase64(files) {
+    console.log('files', files);
+
+    var reader = new FileReader()
+    reader.readAsDataURL(files)
+    reader.onload = () => {
+        console.log('file 转 base64结果：' + reader.result)
+        imageUrl.value = reader.result
+    }
+    reader.onerror = function (error) {
+        console.log('Error: ', error)
+    }
+}
+
 
 const fileList = ref([]);
 const loading = ref(false);
@@ -93,31 +113,35 @@ const FilesCustomRequest = (data) => {
 }
 
 async function employeeFileUpload(data) {
-    const formData = new FormData()
-    formData.append('file', data.file);
-    axios({
-        method: 'post',
-        url: baseUrl + 'api/uploadImage',
-        data: formData,
-        // headers: headers,
-    }).then(res => {
+    ImageToBase64(data.file)
+    // const formData = new FormData()
+    // formData.append('file', data.file);
+    // axios({
+    //     method: 'post',
+    //     url: baseUrl + 'api/uploadImage',
+    //     data: formData,
+    //     // headers: headers,
+    // }).then(res => {
 
-        imageUrl.value = res.data.data
-        console.log('imageUrl.value', imageUrl.value);
+    //     imageUrl.value = res.data.data
+    //     console.log('imageUrl.value', imageUrl.value);
 
 
-    })
-    // return Promise.reject(new Error(res.data.msg));
+    // })
+
 }
 
 const beforeUpload = file => {
+
+    console.log('执行了');
+
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isJpgOrPng) {
         message.error('You can only upload JPG file!');
     }
-    const isLt2M = file.size / 1024 / 1024 < 2;
+    const isLt2M = file.size / 1024 / 1024 < 0.5;
     if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
+        message.error('Image must smaller than 0.5MB!');
     }
     return isJpgOrPng && isLt2M;
 };
