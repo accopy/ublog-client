@@ -1,6 +1,6 @@
 // export const baseUrl = '/prod-api'
-export const baseUrl = 'http://localhost:3000/'
-// export const baseUrl = 'http://47.108.94.23/:3000/'
+// export const baseUrl = 'http://localhost:3000/'
+export const baseUrl = 'http://47.108.94.23:3000/'
 import { message } from 'ant-design-vue';
 
 
