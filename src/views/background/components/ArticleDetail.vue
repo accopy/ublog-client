@@ -1,97 +1,77 @@
 <template>
-    <div class=" bannertitle">
-        {{ data.article.title }}
+  <div class="bannertitle">
+    {{ data.article.title }}
+  </div>
+  <div class="detailbox">
+    <div class="maincontent">
+      <div id="preview" class="vd"></div>
     </div>
-    <div class=" detailbox">
-        <div class="maincontent">
-            <div id="preview" class="vd"></div>
-        </div>
-    </div>
-
-
-
-
+  </div>
 </template>
 
 <script setup>
-import { reactive, toRefs, onBeforeMount, onMounted, ref, watch } from 'vue'
-import { getArticleDetail } from "@/api/api"
+import { reactive, toRefs, onBeforeMount, onMounted, ref, watch } from 'vue';
+import { getArticleDetail } from '@/api/api';
 
 // 1.1 引入Vditor 构造函数
-import Vditor from "vditor"
+import Vditor from 'vditor';
 // 1.2 引入样式
 import 'vditor/dist/index.css';
-
 
 import { message } from 'ant-design-vue';
 
 //首先在setup中定义
 const props = defineProps({
-    //子组件接收父组件传递过来的值
-    articleId: String,
-})
+  //子组件接收父组件传递过来的值
+  articleId: String,
+});
 const data = reactive({
-
-    article: {}
-})
+  article: {},
+});
 // 3. 在组件初始化时，就创建Vditor对象，并引用
 
 //获取详情数据
 const getTagsList = () => {
-    getArticleDetail(props.articleId).then(res => {
-        if (res.code == 200) {
-            data.article = res.data
-            renderMarkdown(data.article.content)
-        }
-
-    })
-}
+  getArticleDetail(props.articleId).then((res) => {
+    if (res.code == 200) {
+      data.article = res.data;
+      renderMarkdown(data.article.content);
+    }
+  });
+};
 onMounted(() => {
-    getTagsList()
-
-})
+  getTagsList();
+});
 
 const renderMarkdown = (md) => {
-    Vditor.preview(document.getElementById("preview"), md, {
-        hljs: { style: "github" },
-        outline: {
-            enable: true,
-            position: "right"
-        }
-    });
-}
-
-
+  Vditor.preview(document.getElementById('preview'), md, {
+    hljs: { style: 'github' },
+    outline: {
+      enable: true,
+      position: 'right',
+    },
+  });
+};
 </script>
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .detailbox {
-    background-color: #F9FAFB !important;
+  background-color: #f9fafb !important;
 }
-
-
 
 .bannertitle {
-    display: flex;
-    justify-content: center;
-    font-size: 28px;
-    padding-bottom: 40px;
-
-
-
+  display: flex;
+  justify-content: center;
+  font-size: 28px;
+  padding-bottom: 40px;
 }
 
-
-
-
-
 .maincontent {
-    margin-top: 20px;
-    width: 100%;
-    padding: 10px;
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
 
-    .vd {
-        overflow: hidden;
-    }
-
+  .vd {
+    overflow: hidden;
+  }
 }
 </style>

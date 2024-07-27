@@ -2,8 +2,6 @@
 export const dictLabel = (datas, value) => {
     // console.log('datas', datas);
     // console.log('value', value);
-
-
     if (value === undefined) {
         return '';
     }

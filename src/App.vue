@@ -5,9 +5,7 @@
 </template>
 
 <script setup>
-
-
-
+console.log('process.env.VITE_BASE_URL', process.env.VITE_BASE_URL);
 </script>
 
 <style lang="scss">
