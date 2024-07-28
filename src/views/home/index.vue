@@ -5,7 +5,7 @@
         <UserCard></UserCard>
       </div>
       <div class="main">
-        <UserCardMobile v-if="data.isMobile" />
+        <!-- <UserCardMobile /> -->
         <div class="homecontent">
           <router-view></router-view>
         </div>
@@ -53,30 +53,23 @@ useResizeObserver(divDom, (entries) => {
 });
 </script>
 <style scoped lang="scss">
-@media screen and (max-width: 800px) {
-  /*当屏幕尺寸小于600px时，应用下面的CSS样式*/
-  .userCard {
-    width: 0px !important;
-    margin: 0px !important;
-  }
-}
-
 //最外层
 .homecontainer {
   max-width: 1200px;
   margin: auto;
   display: flex;
-  justify-content: center;
 }
 
 .userCard {
-  width: 264px;
+  width: 280px;
   height: 100vh;
-
   overflow: hidden;
   position: sticky;
   top: 0;
   margin-right: 10px;
+  @media screen and (max-width: 900px) {
+    width: 0px;
+  }
 }
 
 .homecontent {
@@ -85,8 +78,8 @@ useResizeObserver(divDom, (entries) => {
 }
 
 .main {
+  width: 0;
   flex: 1;
   padding: 0 10px;
-  width: 100%;
 }
 </style>

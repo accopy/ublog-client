@@ -166,6 +166,7 @@ watch(
 
 const renderMarkdown = (md) => {
   Vditor.preview(document.getElementById('preview'), md, {
+    width: '100%',
     hljs: { style: 'github' },
     outline: {
       enable: true,
@@ -274,6 +275,7 @@ const renderMarkdown = (md) => {
 
     .vd {
       overflow: hidden;
+      width: 100%;
     }
   }
 
@@ -300,15 +302,6 @@ const renderMarkdown = (md) => {
   }
 }
 
-@media screen and (max-width: 980px) {
-  /*当屏幕尺寸小于600px时，应用下面的CSS样式*/
-  .toolbar {
-    width: 0px !important;
-    margin: 0px !important;
-    overflow: hidden;
-  }
-}
-
 .toolbar {
   width: 180px;
   margin-left: 20px;
@@ -322,5 +315,8 @@ const renderMarkdown = (md) => {
   position: sticky;
   top: 0px;
   user-select: none;
+  @media screen and (max-width: 900px) {
+    width: 0px;
+  }
 }
 </style>
