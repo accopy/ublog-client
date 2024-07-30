@@ -5,12 +5,14 @@
         <UserCard></UserCard>
       </div>
       <div class="main">
-        <!-- <UserCardMobile /> -->
+        <UserCardMobile v-if="data.isMobile" />
         <div class="homecontent">
           <router-view></router-view>
         </div>
-
-        <Footer />
+        <a-row>
+          <a-col :xs="24" :sm="24" :md="24" :lg="18" :xl="18"> <Footer /></a-col>
+          <a-col :xs="0" :sm="0" :md="0" :lg="6" :xl="6"></a-col>
+        </a-row>
       </div>
     </div>
   </div>
@@ -58,10 +60,11 @@ useResizeObserver(divDom, (entries) => {
   max-width: 1200px;
   margin: auto;
   display: flex;
+  border: 1px solid #fff;
 }
 
 .userCard {
-  width: 280px;
+  width: 258px;
   height: 100vh;
   overflow: hidden;
   position: sticky;

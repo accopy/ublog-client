@@ -72,7 +72,8 @@ const backtohome = (val) => {
   background-color: $block;
   display: flex;
   padding: 5px;
-  margin: 10px;
+  margin-top: 8px;
+  margin-left: 8px;
   border-radius: 4px;
 
   .name {

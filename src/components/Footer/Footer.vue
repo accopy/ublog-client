@@ -2,7 +2,7 @@
   <div class="footer">
     <a-divider />
     <div class="copyright">
-      <img src="https://v1.jinrishici.com/all.svg?font-size=12" alt="" />
+      <img src="https://v1.jinrishici.com/all.svg?font-size=14" alt="" />
     </div>
   </div>
 </template>
@@ -19,6 +19,7 @@ const data = reactive({
   padding-bottom: 60px;
 
   margin-top: 65px;
+  user-select: none;
 
   .copyright {
     display: flex;

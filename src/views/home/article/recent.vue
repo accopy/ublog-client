@@ -2,7 +2,6 @@
   <div class="recent">
     <ArticleList :queryObj="data.queryinfo"></ArticleList>
   </div>
-  <div class="theRight"></div>
 </template>
 
 <script setup>

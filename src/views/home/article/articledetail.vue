@@ -1,73 +1,79 @@
 <template>
   <div class="detailOuter">
-    <div class="detailbox" ref="el">
-      <div class="banner">
-        <div class="bannerbg">
-          <img src="@/assets/img/banner.jpg" alt="" width="100%" height="100%" />
-        </div>
-
-        <div class="content">
-          <div class="bannertop">
-            <div class="breadcrumbbox">
-              <a-breadcrumb>
-                <a-breadcrumb-item><a href="/">主页</a></a-breadcrumb-item>
-                <a-breadcrumb-item>{{
-                  dictLabel(data.categoryList, data.article.category)
-                }}</a-breadcrumb-item>
-              </a-breadcrumb>
+    <a-row>
+      <a-col :xs="24" :sm="24" :md="24" :lg="18" :xl="18">
+        <div class="detailbox" ref="el">
+          <div class="banner">
+            <div class="bannerbg">
+              <img src="@/assets/img/banner.jpg" alt="" width="100%" height="100%" />
             </div>
-            <div style="display: flex">
-              <div>{{ data.authorName }}</div>
-              <div class="time1">
-                <span style="margin: 0 10px">|</span>
-                <span>{{ data.article.create_time }}</span>
-              </div>
 
-              <div class="time2">
-                <span style="margin: 0 10px">|</span>
-                <span>更新于{{ data.article.update_time }}</span>
+            <div class="content">
+              <div class="bannertop">
+                <div class="breadcrumbbox">
+                  <a-breadcrumb>
+                    <a-breadcrumb-item><a href="/">主页</a></a-breadcrumb-item>
+                    <a-breadcrumb-item
+                      ><a>{{
+                        dictLabel(data.categoryList, data.article.category)
+                      }}</a></a-breadcrumb-item
+                    >
+                  </a-breadcrumb>
+                </div>
+                <div style="display: flex">
+                  <div>{{ data.authorName }}</div>
+                  <div class="time1">
+                    <span style="margin: 0 10px">|</span>
+                    <span>{{ data.article.create_time }}</span>
+                  </div>
+
+                  <div class="time2">
+                    <span style="margin: 0 10px">|</span>
+                    <span>更新于{{ data.article.update_time }}</span>
+                  </div>
+                </div>
               </div>
+              <div class="bannertitle">
+                {{ data.article.title }}
+              </div>
+              <div></div>
             </div>
           </div>
-          <div class="bannertitle">
-            {{ data.article.title }}
+          <div class="maincontent">
+            <div id="preview" class="vd"></div>
           </div>
-          <div></div>
         </div>
-      </div>
-      <div class="maincontent">
-        <div id="preview" class="vd"></div>
-      </div>
-    </div>
-    <div class="toolbar">
-      <Toc :tocData="tocData" :isactive="isactive" />
-    </div>
+      </a-col>
+      <a-col :xs="0" :sm="0" :md="0" :lg="6" :xl="6">
+        <div class="toolbar">
+          <Toc :tocData="tocData" :isactive="isactive" @RefreshIndex="setIsactive" />
+        </div>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
 <script setup>
 import { reactive, toRefs, onBeforeMount, onMounted, ref, watch, nextTick, onUnmounted } from 'vue';
 import { getArticleDetail, getCategoryList } from '@/api/api-public';
-
 //引入路由
 import { useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 const router = useRouter();
-import { dictLabel } from '@/api/utils';
 
+import { dictLabel } from '@/api/utils';
 // 1.1 引入Vditor 构造函数
 import Vditor from 'vditor';
-// 1.2 引入样式
 import 'vditor/dist/index.css';
 
-import { useRoute } from 'vue-router';
-import { message } from 'ant-design-vue';
 import { userInfo } from '@/stores/user';
-import { useDebounceFn, useThrottleFn } from '@vueuse/core';
+import { useThrottleFn } from '@vueuse/core';
 import Toc from '../components/Toc.vue';
 
 const userStore = userInfo();
 //首先在setup中定义
 const route = useRoute();
+const isMobile = ref(null);
 const data = reactive({
   id: '',
   article: {},
@@ -111,21 +117,22 @@ const onScrollFunc = useThrottleFn(() => {
 }, 25);
 
 window.addEventListener('scroll', onScrollFunc, true);
+onUnmounted(() => {
+  //销毁时移除监听
+  window.removeEventListener('scroll', onScrollFunc, true);
+});
 
 onMounted(() => {
   getTagsList();
   getCategory();
 });
 
-onUnmounted(() => {
-  //销毁时移除监听
-  window.removeEventListener('scroll', onScrollFunc, true);
-});
-
 // 3. 在组件初始化时，就创建Vditor对象，并引用
 
 //获取详情数据
 const getTagsList = () => {
+  //页面滚动到top
+  toTop();
   data.id = route.query.articleId;
   getArticleDetail(data.id).then((res) => {
     if (res.code == 200) {
@@ -179,12 +186,28 @@ const renderMarkdown = (md) => {
     },
   });
 };
+
+const toTop = () => {
+  window.scrollTo({
+    // top: document.documentElement.offsetHeight, //回到底部
+    top: 0, //回到顶部
+    left: 0,
+    behavior: 'auto', //smooth 平滑；auto:瞬间
+  });
+};
+
+const setIsactive = (e) => {
+  setTimeout(() => {
+    isactive.value = e;
+  }, 50);
+};
 </script>
 <style scoped lang="scss">
 .detailOuter {
   display: flex;
   width: 100%;
 }
+
 .detailbox {
   font-family: LXGWWenKaiMonoScreen !important;
   background-color: #f9fafb !important;
@@ -221,6 +244,7 @@ const renderMarkdown = (md) => {
         -o-user-select: none;
         user-select: none;
         object-fit: cover;
+        transition: 0.3s;
       }
     }
 
@@ -276,24 +300,28 @@ const renderMarkdown = (md) => {
     .vd {
       overflow: hidden;
       width: 100%;
+      font-family: 'LXGWWenKaiMonoScreen' !important;
+      padding-bottom: 100px;
     }
   }
 
   .breadcrumbbox {
     color: white !important;
     z-index: 2;
-
+    font-size: 0.8125rem;
     .ant-breadcrumb a {
       color: white !important;
       font-family: LXGWWenKaiMonoScreen;
       z-index: 2;
+      font-size: 0.8125rem;
     }
 
-    .ant-breadcrumb li:last-child {
-      color: white !important;
-      font-family: LXGWWenKaiMonoScreen;
-      z-index: 2;
-    }
+    // .ant-breadcrumb li:last-child {
+    //   color: white !important;
+    //   font-family: LXGWWenKaiMonoScreen;
+    //   z-index: 2;
+    //   font-size: 0.8125rem;
+    // }
 
     :deep(.ant-breadcrumb-separator) {
       //括号中为需要修改的类名
@@ -311,12 +339,8 @@ const renderMarkdown = (md) => {
   padding-top: 12px;
   height: fit-content;
   padding-bottom: 10px;
-
   position: sticky;
   top: 0px;
   user-select: none;
-  @media screen and (max-width: 900px) {
-    width: 0px;
-  }
 }
 </style>

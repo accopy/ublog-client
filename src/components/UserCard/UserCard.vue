@@ -117,6 +117,7 @@ onMounted(() => {
   user-select: none;
 
   border-radius: 15px;
+  padding: 0 4px;
 }
 
 .header {
@@ -183,8 +184,8 @@ onMounted(() => {
   }
 
   .bottom > div {
-    width: 58px;
-    height: 40px;
+    width: 52px;
+    height: 36px;
     background-color: $alpha50;
     border-radius: 8px;
     display: flex;

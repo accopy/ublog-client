@@ -74,7 +74,7 @@ const toDetailPage = (val) => {
 .achivesli {
   display: flex;
   border-bottom: 1px dashed $text-meta;
-  padding: 3px 0;
+  padding: 5px 0;
   align-items: center;
 
   .left {

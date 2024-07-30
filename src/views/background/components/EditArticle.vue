@@ -45,7 +45,9 @@
         >
         </a-select>
       </a-form-item>
-      <div id="vditor" ref="vditorRef"></div>
+      <div id="vditor" ref="vditorRef">
+        <a-spin v-if="spin" tip="上传中,请稍后..." />
+      </div>
     </a-form>
 
     <div class="bt">
@@ -63,9 +65,9 @@ import { ref, onMounted, reactive, nextTick, onBeforeMount, defineEmits } from '
 import { updateArticle, getArticleDetail, upload } from '@/api/api';
 import { message } from 'ant-design-vue';
 const emit = defineEmits(['Refresh']);
-
+import axios from 'axios';
 const inputRef = ref();
-
+const spin = ref(false);
 const data = reactive({
   formState: {
     title: '',
@@ -97,7 +99,7 @@ const vditor = ref();
 onMounted(() => {
   vditor.value = new Vditor('vditor', {
     height: '60vh',
-    width: '100%',
+
     cache: {
       //是否开启本地缓存
       enable: false,
@@ -120,19 +122,52 @@ onMounted(() => {
           .replace(/[\?\\/:|<>\*\[\]\(\)\$%\{\}@~]/g, '')
           .replace('/\\s/g', '');
       },
+      //上传smms服务
       async handler(files) {
+        spin.value = true;
         const formData = new FormData();
         // console.log('files[0]', files[0]);
-        formData.append('file', files[0]);
+        formData.append('smfile', files[0]);
         // console.log('formData', formData);
-        let res = await upload(formData);
 
-        if (res.code == 200) {
-          vditor.value.insertValue(`![${name}](${res.data})`); // 文本编辑器中插入图片
-          return '上传成功';
-        }
-        return '上传失败';
+        axios({
+          headers: {
+            authorization: 'yYzIjutlgECLSBNl2lwHaFEGANuxMJVm',
+            'Content-Type': 'multipart/form-data',
+          },
+          method: 'post',
+          url: '/upload',
+          data: formData,
+        }).then((res) => {
+          spin.value = false;
+          console.log('res', res);
+          if (res.data.code == 'success') {
+            vditor.value.insertValue(`![${name}](${res.data.data.url})`); // 文本编辑器中插入图片
+            return '上传成功';
+          } else {
+            return res.data.code;
+          }
+        });
+
+        // if (res.code == 200) {
+        //   vditor.value.insertValue(`![${name}](${res.data})`); // 文本编辑器中插入图片
+        //   return '上传成功';
+        // }
+        // return '上传失败';
       },
+      // async handler(files) {
+      //   const formData = new FormData();
+      //   // console.log('files[0]', files[0]);
+      //   formData.append('file', files[0]);
+      //   // console.log('formData', formData);
+      //   let res = await upload(formData);
+
+      //   if (res.code == 200) {
+      //     vditor.value.insertValue(`![${name}](${res.data})`); // 文本编辑器中插入图片
+      //     return '上传成功';
+      //   }
+      //   return '上传失败';
+      // },
     },
   });
 });
