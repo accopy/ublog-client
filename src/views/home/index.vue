@@ -72,6 +72,7 @@ useResizeObserver(divDom, (entries) => {
   margin-right: 10px;
   @media screen and (max-width: 900px) {
     width: 0px;
+    margin-right: 0px;
   }
 }
 

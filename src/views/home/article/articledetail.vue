@@ -5,7 +5,7 @@
         <div class="detailbox" ref="el">
           <div class="banner">
             <div class="bannerbg">
-              <img src="@/assets/img/banner.jpg" alt="" width="100%" height="100%" />
+              <img :src="randomUrl" width="100%" height="100%" />
             </div>
 
             <div class="content">
@@ -82,7 +82,10 @@ const data = reactive({
 });
 
 const isactive = ref(0); //目录高亮索引
-
+const getRandom = (n, m) => {
+  return Math.floor(Math.random() * (m - n + 1)) + n;
+};
+const randomUrl = require(`@/assets/img/bg${getRandom(0, 3)}.jpg`);
 // TOC 目录
 function initToc() {
   // 获取所有h1 h2 h3 标签
@@ -262,14 +265,13 @@ const setIsactive = (e) => {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      color: white;
-
+      color: white; //
       .bannertop {
         padding: 15px;
 
         line-height: 1.6;
         user-select: none;
-        color: white;
+
         z-index: 2;
       }
 
@@ -306,11 +308,10 @@ const setIsactive = (e) => {
   }
 
   .breadcrumbbox {
-    color: white !important;
     z-index: 2;
     font-size: 0.8125rem;
     .ant-breadcrumb a {
-      color: white !important;
+      color: white !important; //面包屑字体颜色
       font-family: LXGWWenKaiMonoScreen;
       z-index: 2;
       font-size: 0.8125rem;

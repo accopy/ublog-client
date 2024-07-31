@@ -7,7 +7,10 @@
         </div>
         <div>
           <div class="username">{{ userStore.name }}</div>
-          <div class="ind">{{ userStore.saying[0] }}</div>
+
+          <div class="ind">
+            {{ userStore.saying[0] }}
+          </div>
         </div>
       </div>
     </div>
@@ -24,16 +27,18 @@
       <div>
         <SearchResult :searchKey="data.searchValue" />
       </div>
-      <div class="bottom">
+      <!-- <div class="bottom">
         <div
           v-for="item in data.navlist"
           :key="item.id"
           @click="JumpOtherPage(item)"
           :class="[data.activeId == item.id ? 'navActive' : '']"
         >
-          <img :src="item.img" alt="" width="30" />
+          <a-tooltip :title="item.name" placement="bottom">
+            <img :src="item.img" alt="" width="30" />
+          </a-tooltip>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <div class="welcome">
@@ -71,13 +76,29 @@ const data = reactive({
   activeId: 1,
   navlist: [
     //静态加载加require
-    { id: 1, img: require('./icon/文档.svg'), url: '/' },
-    { id: 2, img: '', url: '' },
-    { id: 3, img: '', url: '' },
-    { id: 4, img: '', url: '' },
+    { id: 1, img: require('./icon/文档.svg'), url: '/', name: '文章' },
+    { id: 2, img: '', url: '', name: '' },
+    { id: 3, img: '', url: '', name: '' },
+    { id: 4, img: '', url: '', name: '' },
   ],
   recentlist: [],
 });
+
+const colors = [
+  'pink',
+  'red',
+  'yellow',
+  'orange',
+  'cyan',
+  'green',
+  'blue',
+  'purple',
+  'geekblue',
+  'magenta',
+  'volcano',
+  'gold',
+  'lime',
+];
 
 const JumpOtherPage = (val) => {
   if (val.url) {

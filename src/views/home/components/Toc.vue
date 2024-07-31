@@ -8,7 +8,10 @@
         </div>
       </div>
       <div class="toccontent">
-        <transition name="fade">
+        <transition
+          enter-active-class="animate__animated animate__zoomIn"
+          leave-active-class="animate__animated animate__zoomOut"
+        >
           <ul id="menu" v-if="showDetail">
             <!-- 这里为了设置各级标题的不同样式，添加了类，h1标签类为item-1，h2标签类为item-2 -->
             <li
@@ -33,6 +36,8 @@
 <script setup>
 import { reactive, ref, defineProps, defineEmits, watch, nextTick } from 'vue';
 import { OrderedListOutlined, ToTopOutlined } from '@ant-design/icons-vue';
+
+import animate from 'animate.css';
 const emit = defineEmits(['RefreshIndex']);
 const data = reactive({
   name: '',
@@ -102,12 +107,15 @@ const toTop = () => {
     background-color: $block-hover;
   }
 }
+
 .toccontent {
   ul {
+    transition: 0.1s;
     height: auto;
     padding: 0;
-
-    -webkit-transition: transform 0.3s;
+    z-index: -1;
+    animation-duration: 0.3s; /* don't forget to set a duration! */
+    -webkit-transition: transform 0.3s; /* don't forget to set a duration! */
 
     li {
       font-family: LXGWWenKaiMonoScreen !important;
@@ -128,11 +136,26 @@ const toTop = () => {
   }
 }
 
+.fade-enter,
+.fade-leave-to {
+  transform: translateX(-100%);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: 1s;
+}
+
+.fade-enter-to {
+  transform: translateX(0);
+}
+
 .toTop {
   width: 92%;
   display: flex;
   margin-top: 10px;
   justify-content: flex-start;
+  padding: 5px;
 
   border-radius: 8px;
   cursor: pointer;

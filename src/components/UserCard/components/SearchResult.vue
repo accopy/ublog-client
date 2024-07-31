@@ -55,6 +55,7 @@ const search = useDebounceFn(
       searchArticle({ key: props.searchKey }).then((res) => {
         if (res.code == 200) {
           data.list = res.data;
+          emit('searchDown');
           if (data.list.length == 0) {
             data.isNone = false;
           } else {

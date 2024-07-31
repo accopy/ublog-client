@@ -26,8 +26,20 @@
         <MenuUnfoldOutlined @click="open = false" />
       </div>
       <div style="margin-top: 20px">
-        <a-input-search v-model:value="data.searchValue" placeholder="站内搜索" enter-button />
-        <SearchResult :searchKey="data.searchValue" @Refresh="open = false" />
+        <a-input-search
+          v-model:value="data.searchValueT"
+          placeholder="站内搜索"
+          enter-button
+          @search="onSearch"
+        />
+        <div style="display: flex; justify-content: center; padding-top: 10px">
+          <a-spin tip="" v-if="isLoading"> </a-spin>
+        </div>
+        <SearchResult
+          :searchKey="data.searchValue"
+          @Refresh="open = false"
+          @searchDown="isLoading = false"
+        />
       </div>
     </a-drawer>
   </div>
@@ -44,10 +56,11 @@ const userStore = userInfo();
 //引入路由
 import { useRouter } from 'vue-router';
 const router = useRouter();
-
+const isLoading = ref(false);
 const data = reactive({
   searchTempValue: '',
   searchValue: '',
+  searchValueT: '',
   searchList: [],
   recentlist: [],
 });
@@ -57,6 +70,10 @@ const showDrawer = () => {
   open.value = true;
 };
 
+const onSearch = (e) => {
+  isLoading.value = true;
+  data.searchValue = e;
+};
 const Refresh = () => {
   emit('Refresh');
 };
