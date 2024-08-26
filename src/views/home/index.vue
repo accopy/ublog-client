@@ -9,16 +9,14 @@
         <div class="homecontent">
           <router-view></router-view>
         </div>
-        <a-row>
-          <a-col :xs="24" :sm="24" :md="24" :lg="18" :xl="18"> <Footer /></a-col>
-          <a-col :xs="0" :sm="0" :md="0" :lg="6" :xl="6"></a-col>
-        </a-row>
+
+        <Footer />
       </div>
     </div>
   </div>
 </template>
 <script setup>
-import { ref, defineComponent, onMounted, onUnmounted, reactive, onBeforeMount } from 'vue';
+import { ref, reactive, onBeforeMount } from 'vue';
 import UserCard from '../../components/UserCard/UserCard.vue';
 import UserCardMobile from '../../components/UserCard/UserCardMobile.vue';
 
@@ -64,7 +62,7 @@ useResizeObserver(divDom, (entries) => {
 }
 
 .userCard {
-  width: 258px;
+  width: 270px;
   height: 100vh;
   overflow: hidden;
   position: sticky;

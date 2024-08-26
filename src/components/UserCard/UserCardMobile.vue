@@ -25,7 +25,7 @@
       <div class="menuIcon">
         <MenuUnfoldOutlined @click="open = false" />
       </div>
-      <div style="margin-top: 20px">
+      <div class="inbox">
         <a-input-search
           v-model:value="data.searchValueT"
           placeholder="站内搜索"
@@ -89,7 +89,7 @@ const toDetailPage = (val) => {
 <style scoped lang="scss">
 .header {
   :deep(.ant-drawer .ant-drawer-body) {
-    background-color: aquamarine !important;
+    background-image: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
   }
 
   .logo_wrap {
@@ -129,5 +129,9 @@ const toDetailPage = (val) => {
   font-size: 160%;
   margin-left: auto;
   color: black;
+}
+
+.inbox {
+  margin-top: 20px;
 }
 </style>

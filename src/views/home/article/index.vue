@@ -1,12 +1,5 @@
 <template>
-  <div class="articleaboutpage">
-    <a-row>
-      <a-col :xs="24" :sm="24" :md="24" :lg="18" :xl="18">
-        <Navbar /> <router-view></router-view
-      ></a-col>
-      <a-col :xs="0" :sm="0" :md="0" :lg="6" :xl="6"></a-col>
-    </a-row>
-  </div>
+  <div class="articleaboutpage"><Navbar /> <router-view></router-view></div>
 </template>
 
 <script setup>

@@ -27,7 +27,7 @@
       <div>
         <SearchResult :searchKey="data.searchValue" />
       </div>
-      <!-- <div class="bottom">
+      <div class="bottom">
         <div
           v-for="item in data.navlist"
           :key="item.id"
@@ -38,7 +38,7 @@
             <img :src="item.img" alt="" width="30" />
           </a-tooltip>
         </div>
-      </div> -->
+      </div>
     </div>
 
     <div class="welcome">
@@ -134,11 +134,13 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   font-family: LXGWWenKaiMonoScreen;
-  background: linear-gradient(to bottom, #92fe9d, #00c9ff);
   user-select: none;
-
-  border-radius: 15px;
+  border-radius: 12px;
   padding: 0 4px;
+
+  // background-image: linear-gradient(to bottom, #fad0c4 0%, #fad0c4 1%, #ffd1ff 100%);
+  // background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
+  background-image: linear-gradient(to bottom, #fbc2eb 0%, #a6c1ee 100%);
 }
 
 .header {

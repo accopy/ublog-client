@@ -1,11 +1,11 @@
 <template>
-  <div class="detailOuter">
-    <a-row>
+  <div class="detailOuter" v-if="data.article">
+    <a-row style="width: 100%">
       <a-col :xs="24" :sm="24" :md="24" :lg="18" :xl="18">
         <div class="detailbox" ref="el">
           <div class="banner">
             <div class="bannerbg">
-              <img :src="randomUrl" width="100%" height="100%" />
+              <img src="../../../assets/img/articleBg.jpg" width="100%" height="100%" />
             </div>
 
             <div class="content">
@@ -21,9 +21,7 @@
                   </a-breadcrumb>
                 </div>
                 <div style="display: flex">
-                  <div>{{ data.authorName }}</div>
                   <div class="time1">
-                    <span style="margin: 0 10px">|</span>
                     <span>{{ data.article.create_time }}</span>
                   </div>
 
@@ -40,13 +38,19 @@
             </div>
           </div>
           <div class="maincontent">
+            <a-spin v-if="isloading" />
             <div id="preview" class="vd"></div>
           </div>
         </div>
       </a-col>
       <a-col :xs="0" :sm="0" :md="0" :lg="6" :xl="6">
         <div class="toolbar">
-          <Toc :tocData="tocData" :isactive="isactive" @RefreshIndex="setIsactive" />
+          <Toc
+            :tocData="tocData"
+            :isactive="isactive"
+            @RefreshIndex="setIsactive"
+            v-if="!isloading"
+          />
         </div>
       </a-col>
     </a-row>
@@ -81,11 +85,13 @@ const data = reactive({
   authorName: '',
 });
 
-const isactive = ref(0); //目录高亮索引
+const isactive = ref(0); //文章右边目录 高亮索引
+
+const isloading = ref(true); //加载状态
 const getRandom = (n, m) => {
   return Math.floor(Math.random() * (m - n + 1)) + n;
 };
-const randomUrl = require(`@/assets/img/bg${getRandom(0, 3)}.jpg`);
+
 // TOC 目录
 function initToc() {
   // 获取所有h1 h2 h3 标签
@@ -185,6 +191,7 @@ const renderMarkdown = (md) => {
     after: () => {
       nextTick(() => {
         tocData.value = initToc();
+        isloading.value = false;
       });
     },
   });
@@ -212,6 +219,8 @@ const setIsactive = (e) => {
 }
 
 .detailbox {
+  width: 100%;
+  flex: 1;
   font-family: LXGWWenKaiMonoScreen !important;
   background-color: #f9fafb !important;
   flex: 1;
@@ -224,6 +233,7 @@ const setIsactive = (e) => {
   }
 
   .banner {
+    width: 100%;
     height: 200px;
     border-radius: 16px;
     overflow: hidden;
@@ -232,6 +242,7 @@ const setIsactive = (e) => {
     position: relative;
 
     .bannerbg {
+      width: 100%;
       border-radius: 16px;
       position: absolute;
       top: 0;
@@ -284,7 +295,7 @@ const setIsactive = (e) => {
         z-index: 2;
         text-align: center;
         //文字描边效果
-        background-image: linear-gradient(#ffffff, #92fe9d);
+        background-image: linear-gradient(#ffffff, #f2c2eb);
         background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;

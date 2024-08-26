@@ -8,10 +8,7 @@
         </div>
       </div>
       <div class="toccontent">
-        <transition
-          enter-active-class="animate__animated animate__zoomIn"
-          leave-active-class="animate__animated animate__zoomOut"
-        >
+        <transition>
           <ul id="menu" v-if="showDetail">
             <!-- 这里为了设置各级标题的不同样式，添加了类，h1标签类为item-1，h2标签类为item-2 -->
             <li
@@ -114,8 +111,6 @@ const toTop = () => {
     height: auto;
     padding: 0;
     z-index: -1;
-    animation-duration: 0.3s; /* don't forget to set a duration! */
-    -webkit-transition: transform 0.3s; /* don't forget to set a duration! */
 
     li {
       font-family: LXGWWenKaiMonoScreen !important;
@@ -134,20 +129,6 @@ const toTop = () => {
       transition: 0.3s;
     }
   }
-}
-
-.fade-enter,
-.fade-leave-to {
-  transform: translateX(-100%);
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: 1s;
-}
-
-.fade-enter-to {
-  transform: translateX(0);
 }
 
 .toTop {
