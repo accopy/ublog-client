@@ -40,11 +40,11 @@
 </template>
 
 <script setup>
-import { reactive, toRefs, onBeforeMount, ref } from 'vue';
-import { getmyinfo, updatemyinfo, upload } from '@/api/api';
-import { baseUrl } from '@/api/request';
+import { reactive, onBeforeMount, ref } from 'vue';
+import { getmyinfo, updatemyinfo } from '@/api/api';
 import { message } from 'ant-design-vue';
 import axios from 'axios';
+import { baseUrl } from '@/api/request';
 
 const headers = reactive({
   Authorization: localStorage.getItem('token'),

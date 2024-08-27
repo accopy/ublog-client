@@ -55,6 +55,8 @@
         <div v-for="item in data.recentlist" @click="toDetailPage(item._id)">{{ item.title }}</div>
       </div>
     </div>
+
+    <div class="toback" @click="toBackground"></div>
   </div>
 </template>
 
@@ -118,6 +120,13 @@ const toDetailPage = (val) => {
   });
 };
 
+const toBackground = () => {
+  //跳转详情页
+  router.push({
+    path: '/background',
+  });
+};
+
 const getarticleListse = () => {
   getArticleListSe().then((res) => [(data.recentlist = res.data)]);
 };
@@ -130,6 +139,14 @@ onMounted(() => {
 });
 </script>
 <style scoped lang="scss">
+.toback {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
 .container {
   width: 100%;
   height: 100%;
@@ -137,6 +154,7 @@ onMounted(() => {
   user-select: none;
   border-radius: 12px;
   padding: 0 4px;
+  position: relative;
 
   // background-image: linear-gradient(to bottom, #fad0c4 0%, #fad0c4 1%, #ffd1ff 100%);
   // background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
