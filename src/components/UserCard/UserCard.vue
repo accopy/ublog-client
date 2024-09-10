@@ -3,13 +3,19 @@
     <div class="header">
       <div class="logo_wrap">
         <div class="avatar" @click="router.push('/')">
-          <img :src="userStore.avatar" alt="" />
+          <div class="color_border"></div>
+          <img :src="userStore.avatar" alt="" class="imgsty" />
         </div>
-        <div>
+        <div style="display: flex; flex-direction: column; justify-content: space-evenly">
           <div class="username">{{ userStore.name }}</div>
 
-          <div class="ind">
-            {{ userStore.saying[0] }}
+          <div class="par">
+            <div class="show">
+              {{ userStore.saying[0] }}
+              <div>
+                {{ userStore.saying[1] }}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -82,6 +88,7 @@ const data = reactive({
     { id: 2, img: '', url: '', name: '' },
     { id: 3, img: '', url: '', name: '' },
     { id: 4, img: '', url: '', name: '' },
+    // { id: 4, img: require('./icon/爱心.svg'), url: '/about', name: '关于' },
   ],
   recentlist: [],
 });
@@ -168,16 +175,47 @@ onMounted(() => {
   }
 
   .avatar {
-    margin-right: 15px;
-    border: 3px solid red;
+    width: 48px;
+    height: 48px;
+    margin-right: 12px;
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 
-    img {
+    .color_border {
+      background-image: url('../../assets/img/rainbow64@3x.webp');
+      background-size: 100% 100%;
+      width: 49px;
+      height: 49px;
+      position: absolute;
+      z-index: 1;
+      opacity: 0;
+    }
+    .imgsty {
       width: 44px;
       height: 44px;
       border-radius: 50%;
       cursor: pointer;
+      z-index: 2;
     }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .avatar:hover .color_border {
+    //鼠标经过A元素时，B元素背景会变成黑色
+
+    animation: spin 2s linear infinite;
+    opacity: 1;
   }
 
   .username {
@@ -187,11 +225,24 @@ onMounted(() => {
     cursor: pointer;
   }
 
-  .ind {
+  .par {
     font-size: 0.8125rem;
-    cursor: pointer;
     color: $text-p1;
+    line-height: 15px;
+    height: 16px;
+    overflow: hidden;
+    cursor: pointer;
   }
+}
+
+.show {
+  transition: all 0.2s;
+}
+.par :hover {
+  transform: translateY(-16px);
+}
+.show :hover {
+  transform: translateY(0);
 }
 
 .nav-area {
@@ -258,7 +309,7 @@ onMounted(() => {
     color: #333;
     line-height: 1.5;
     border-radius: 10px;
-    font-size: 0.875rem;
+    font-size: 0.815rem;
   }
 }
 

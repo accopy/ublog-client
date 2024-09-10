@@ -62,12 +62,13 @@ useResizeObserver(divDom, (entries) => {
 }
 
 .userCard {
-  width: 270px;
+  width: 280px;
   height: 100vh;
   overflow: hidden;
   position: sticky;
   top: 0;
   margin-right: 10px;
+  padding: 5px 0px;
   @media screen and (max-width: 900px) {
     width: 0px;
     margin-right: 0px;

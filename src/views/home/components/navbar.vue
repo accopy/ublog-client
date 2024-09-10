@@ -3,7 +3,7 @@
     <div
       v-for="item in data.list"
       :key="item.id"
-      :class="[item.id == data.activeId ? 'active' : '']"
+      :class="[navitem, item.id == data.activeId ? 'active' : '']"
       @click="JumpOtherPage(item)"
     >
       {{ item.name }}
@@ -95,6 +95,7 @@ onBeforeMount(() => {
   color: $text-p3;
   border-radius: 6px;
   font-size: 12px;
+  position: relative;
 }
 
 .nav :hover {
@@ -105,6 +106,15 @@ onBeforeMount(() => {
 .active {
   background-color: white;
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.04), 0 0 8px 0 rgba(0, 0, 0, 0.04);
+}
+.active::after {
+  content: '';
+  display: inline-block;
+  width: 80%;
+  border: 1px solid #1cd0fd;
+  position: absolute;
+
+  transform: translateY(25px);
 }
 
 .new {

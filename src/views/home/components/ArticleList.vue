@@ -11,7 +11,12 @@
               <div style="margin-left: 8px">{{ item.create_time.substring(0, 10) }}</div>
             </div>
             <div class="category">
-              <div v-for="(i, index) in item.category" :key="index" class="categorybox">
+              <div
+                v-for="(i, index) in item.category"
+                :key="index"
+                class="categorybox"
+                :class="sstt[Math.floor(Math.random() * 4)]"
+              >
                 <i class="iconfont icon-wendang"></i>
                 {{ dictLabel(data.categoryList, i) }}
               </div>
@@ -62,6 +67,8 @@ const data = reactive({
   total: 0,
   categoryList: [],
 });
+
+const sstt = reactive(['ss1', 'ss2', 'ss3', 'ss4']);
 
 onBeforeMount(() => {
   getCategory();
@@ -166,6 +173,7 @@ const toAddPage = (val) => {
   padding: 20px;
   margin-top: 20px;
   background-color: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 
   .titel {
     font-size: 22px;
@@ -205,10 +213,22 @@ const toAddPage = (val) => {
         display: flex;
         align-items: center;
         margin: 0 5px;
-        color: $de-c1;
       }
     }
   }
+}
+
+.ss1 {
+  color: #247660 !important;
+}
+.ss2 {
+  color: #2196f3 !important;
+}
+.ss3 {
+  color: #ecac60 !important;
+}
+.ss4 {
+  color: #f87171 !important;
 }
 
 .pagination {

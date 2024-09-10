@@ -68,7 +68,7 @@ import Vditor from 'vditor';
 // 1.2 引入样式
 import 'vditor/dist/index.css';
 import { ref, onMounted, reactive, nextTick, onBeforeMount, defineEmits } from 'vue';
-import { addArticle, upload } from '@/api/api';
+import { addArticle, myUpload } from '@/api/api';
 import { baseUrl } from '@/api/request';
 
 import { message } from 'ant-design-vue';
@@ -130,6 +130,7 @@ onMounted(() => {
           .replace(/[\?\\/:|<>\*\[\]\(\)\$%\{\}@~]/g, '')
           .replace('/\\s/g', '');
       },
+
       //上传smms服务
       async handler(files) {
         spin.value = true;
@@ -156,20 +157,15 @@ onMounted(() => {
             return res.data.code;
           }
         });
-
-        // if (res.code == 200) {
-        //   vditor.value.insertValue(`![${name}](${res.data})`); // 文本编辑器中插入图片
-        //   return '上传成功';
-        // }
-        // return '上传失败';
       },
+
       //上传自身服务器
       // async handler(files) {
       //   const formData = new FormData();
       //   // console.log('files[0]', files[0]);
       //   formData.append('file', files[0]);
       //   // console.log('formData', formData);
-      //   let res = await upload(formData);
+      //   let res = await myUpload(formData);
 
       //   if (res.code == 200) {
       //     vditor.value.insertValue(`![${name}](${res.data})`); // 文本编辑器中插入图片

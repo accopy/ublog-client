@@ -188,6 +188,7 @@ const renderMarkdown = (md) => {
       enable: true,
       position: 'right',
     },
+    classes: {},
     after: () => {
       nextTick(() => {
         tocData.value = initToc();
@@ -213,8 +214,12 @@ const setIsactive = (e) => {
 };
 </script>
 <style scoped lang="scss">
+.scrollmargin {
+  scroll-margin: 6rem;
+}
 .detailOuter {
   display: flex;
+  padding: 5px 0px;
   width: 100%;
 }
 
@@ -315,6 +320,21 @@ const setIsactive = (e) => {
       width: 100%;
       font-family: 'LXGWWenKaiMonoScreen' !important;
       padding-bottom: 100px;
+    }
+    :deep(h1) {
+      scroll-margin: 0.8rem;
+    }
+    :deep(h2) {
+      scroll-margin: 0.8rem;
+    }
+    :deep(h3) {
+      scroll-margin: 0.8rem;
+    }
+    :deep(h4) {
+      scroll-margin: 0.8rem;
+    }
+    :deep(h5) {
+      scroll-margin: 0.8rem;
     }
   }
 

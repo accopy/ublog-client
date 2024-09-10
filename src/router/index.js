@@ -9,6 +9,7 @@ import Category from '@/views/home/article/category.vue';
 import Tags from '@/views/home/article/tags.vue';
 import Archives from '@/views/home/article/archives.vue';
 import Articledetail from '@/views/home/article/articledetail.vue';
+import About from '@/views/home/about/index.vue';
 
 import Background from '@/views/background/index.vue';
 import BackgroundHome from '@/views/background/home.vue';
@@ -49,6 +50,7 @@ const routes = [
         ],
       },
       { path: '/detail', component: Articledetail },
+      { path: '/about', component: About },
     ],
   },
   {

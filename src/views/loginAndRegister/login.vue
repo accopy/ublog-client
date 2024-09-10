@@ -62,10 +62,6 @@ const toRegPage = () => {
   });
 };
 
-onMounted(() => {
-  open('topRight');
-});
-
 const onFinish = (values) => {
   login(formState).then((res) => {
     if (res.code == 200) {

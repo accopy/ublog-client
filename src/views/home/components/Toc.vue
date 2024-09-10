@@ -55,9 +55,9 @@ const anchor = (id, index) => {
   emit('RefreshIndex', index);
   let anchorElement = document.getElementById(id);
   if (anchorElement) {
-    anchorElement.scrollIntoView({
-      behavior: 'auto', // smooth 平滑；auto:瞬间
-    });
+    anchorElement.setAttribute('class', '类名');
+
+    anchorElement.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
   }
 };
 
